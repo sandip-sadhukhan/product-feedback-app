@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from '../common/button'
+import SortByDropdown from './sort-by-dropdown';
 
 const SuggestionsHeader = () => {
   return (
@@ -12,13 +13,7 @@ const SuggestionsHeader = () => {
             <h3 className="text-white">6 Suggestions</h3>
           </div>
 
-          <div className='flex items-center gap-x-1'>
-            <span>Sort by :</span>
-            <div className='flex items-center gap-x-2'>
-              <h4 className='text-white'>Most Upvotes</h4>
-              <img src="/public/assets/suggestions/arrow-down-white.svg" alt="arrow down" />
-            </div>
-          </div>
+          <SortByDropdown />
         </div>
 
         {/* <button className='flex items-center gap-2'><img src="/public/assets/shared/icon-plus.svg" alt="Plus icon" /> Add Feedback</button> */}
