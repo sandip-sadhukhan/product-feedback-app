@@ -4,19 +4,19 @@
 
 @layer base {
   h1 {
-    @apply font-bold text-2xl leading-9 tracking-[-0.33px];
+    @apply font-bold text-2xl text-secondary-blue leading-9 tracking-[-0.33px];
   }
 
   h2 {
-    @apply font-bold text-xl leading-7 tracking-[-0.25px];
+    @apply font-bold text-xl text-secondary-blue leading-7 tracking-[-0.25px];
   }
 
   h3 {
-    @apply font-bold text-lg leading-[26px] tracking-[-0.25px];
+    @apply font-bold text-lg text-secondary-blue leading-[26px] tracking-[-0.25px];
   }
 
   h4 {
-    @apply font-bold text-sm tracking-[-0.2px];
+    @apply font-bold text-secondary-blue text-sm tracking-[-0.2px];
   }
 }
 
