@@ -6,7 +6,7 @@ const TagsBox = () => {
   const activeTag = "All";
 
   return (
-    <div className='bg-white p-6 rounded-lg flex flex-wrap justify-start items-center gap-x-1.5 gap-y-3.5'>
+    <div className='bg-white p-6 rounded-lg flex-1 flex flex-wrap justify-start items-center gap-x-1.5 gap-y-3.5'>
       {
         tags.map((tag) => (
           <Tag key={tag} isActive={tag===activeTag}>{tag}</Tag>

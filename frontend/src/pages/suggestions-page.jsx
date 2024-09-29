@@ -326,12 +326,13 @@ const SuggestionsPage = () => {
       ],
     },
   ];
+  productRequests = []
 
   return (
     <div className="bg-light-blue min-h-screen">
-      <div className="container max-w-6xl mx-auto px-3">
-        <div className="flex flex-col py-24 items-start md:gap-x-[30px] md:flex-row">
-          <aside className="min-w-[255px] flex flex-col space-y-6">
+      <div className="container max-w-6xl mx-auto px-10">
+        <div className="flex flex-col py-14 items-start gap-y-10 lg:gap-x-[30px] lg:flex-row lg:py-24">
+          <aside className="flex flex-row min-w-full gap-x-2.5 lg:gap-y-6 lg:flex-col lg:min-w-[255px]">
             <ColorBox />
             <TagsBox />
             <RoadMapBox />

@@ -11,7 +11,7 @@ const RoadMapBox = () => {
   const isViewBtnDisabled = !columns.some((column) => column.count > 0);
 
   return (
-    <div className="bg-white p-6 rounded-lg flex flex-col gap-y-6">
+    <div className="bg-white p-6 rounded-lg flex-1 flex flex-col gap-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2>Roadmap</h2>
