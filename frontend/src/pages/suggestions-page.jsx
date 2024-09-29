@@ -328,7 +328,6 @@ const SuggestionsPage = () => {
     },
   ];
 
-  productRequests = []
 
   return (
     <div className="bg-light-blue min-h-screen">
