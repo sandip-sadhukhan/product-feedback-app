@@ -9,7 +9,7 @@ const TagsBox = () => {
     <div className='bg-white p-6 rounded-lg flex flex-wrap justify-start items-center gap-x-1.5 gap-y-3.5'>
       {
         tags.map((tag) => (
-          <Tag key={tag} name={tag} isActive={tag===activeTag} />
+          <Tag key={tag} isActive={tag===activeTag}>{tag}</Tag>
         ))
       }
     </div>
