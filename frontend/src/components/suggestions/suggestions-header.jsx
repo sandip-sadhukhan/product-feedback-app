@@ -7,7 +7,7 @@ import plusIcon from '../../assets/shared/icon-plus.svg'
 const SuggestionsHeader = () => {
   return (
     <div className='w-full py-2 px-6 bg-darkest-blue text-white md:rounded-lg md:px-3.5 md:py-3.5'>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap gap-y-2 items-center justify-between">
         <div className="flex items-center gap-x-[38px]">
           {/* Logo & heading */}
           <div className="hidden items-center gap-x-4 md:flex">
