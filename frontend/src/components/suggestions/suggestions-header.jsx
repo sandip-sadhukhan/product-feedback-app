@@ -4,11 +4,11 @@ import SortByDropdown from './sort-by-dropdown';
 
 const SuggestionsHeader = () => {
   return (
-    <div className='w-full p-3.5 bg-darkest-blue text-white rounded-lg'>
+    <div className='w-full py-2 px-6 bg-darkest-blue text-white md:rounded-lg md:px-3.5 md:py-3.5'>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-[38px]">
           {/* Logo & heading */}
-          <div className="flex items-center gap-x-4">
+          <div className="hidden items-center gap-x-4 md:flex">
             <img src="/public/assets/suggestions/icon-suggestions.svg" alt="Suggestion icon" />
             <h3 className="text-white">6 Suggestions</h3>
           </div>

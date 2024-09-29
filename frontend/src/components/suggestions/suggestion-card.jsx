@@ -13,22 +13,30 @@ const SuggestionCard = (props) => {
   } = props;
 
   return (
-    <div className="flex items-center justify-between py-7 px-8 bg-white rounded-lg cursor-pointer">
+    <div className="flex flex-col gap-y-4 items-start py-7 px-8 bg-white rounded-lg cursor-pointer md:flex-row md:items-center md:justify-between">
       <div className="flex items-start gap-x-10">
-        <UpvoteBox count={upvotesCount} isActive={isUpvotedByCurrentUser} />
+        <div className="hidden md:block">
+          <UpvoteBox count={upvotesCount} isActive={isUpvotedByCurrentUser} />
+        </div>
 
         {/* Content */}
         <div className="flex flex-col gap-y-1 items-start">
-          <h3>{title}</h3>
-          <p className="text-secondary-blue-dim text-[16px] mb-2">{description}</p>
+          <h3 className="text-[13px] md:text-lg">{title}</h3>
+          <p className="text-secondary-blue-dim mb-2 text-[13px] md:text-[16px]">{description}</p>
           <Tag><span className="capitalize">{category}</span></Tag>
         </div>
       </div>
 
-      {/* Comment count */}
-      <div className="flex gap-x-2 items-center">
-        <img src="/public/assets/shared/icon-comments.svg" alt="Comment" />
-        <h4 className="text-[16px]">{commentsCount}</h4>
+      <div className="flex items-center justify-between w-full md:w-auto">
+        <div className="block md:hidden">
+          <UpvoteBox count={upvotesCount} isActive={isUpvotedByCurrentUser} />
+        </div>
+
+        {/* Comment count */}
+        <div className="flex gap-x-2 items-center">
+          <img src="/public/assets/shared/icon-comments.svg" alt="Comment" />
+          <h4 className="text-[16px]">{commentsCount}</h4>
+        </div>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ const UpvoteBox = ({ count, isActive = false }) => {
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center gap-y-2 px-2 py-3.5 pb-2 min-w-10 rounded-lg cursor-pointer",
+        "flex flex-row items-center justify-center px-4 py-2.5 rounded-lg cursor-pointer min-w-[69px] gap-x-1.5 md:py-3.5 md:px-2 md:gap-y-2  md:flex-col md:min-w-10",
         { "bg-light-blue hover:bg-[#CFD7FF]": !isActive },
         { "bg-dark-blue hover:opacity-90": isActive }
       )}

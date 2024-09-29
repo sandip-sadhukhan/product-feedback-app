@@ -326,22 +326,27 @@ const SuggestionsPage = () => {
       ],
     },
   ];
-  productRequests = []
 
   return (
     <div className="bg-light-blue min-h-screen">
-      <div className="container max-w-6xl mx-auto px-10">
-        <div className="flex flex-col py-14 items-start gap-y-10 lg:gap-x-[30px] lg:flex-row lg:py-24">
-          <aside className="flex flex-row min-w-full gap-x-2.5 lg:gap-y-6 lg:flex-col lg:min-w-[255px]">
+      <div className="container max-w-6xl mx-auto md:px-10">
+        <div className="flex flex-col items-start md:gap-y-10 md:py-14 lg:gap-x-[30px] lg:flex-row lg:py-24">
+
+          {/* Mobile Header */}
+
+          {/* Sidebar for Tablet and above */}
+          <aside className="hidden flex-row min-w-full gap-x-2.5 md:flex lg:gap-y-6 lg:flex-col lg:min-w-[255px]">
             <ColorBox />
             <TagsBox />
             <RoadMapBox />
           </aside>
 
-          <main className="w-full flex flex-col gap-y-6">
+          {/* Main content */}
+          <main className="w-full flex flex-col gap-y-8 md:gap-y-6 pb-10">
             <SuggestionsHeader />
 
-            <div className="flex flex-col gap-y-5">
+            {/* Suggestions */}
+            <div className="flex flex-col gap-y-5 px-6 md:px-0">
               {productRequests.length > 0 ? (
                 productRequests.map((product, index) => (
                   <SuggestionCard
