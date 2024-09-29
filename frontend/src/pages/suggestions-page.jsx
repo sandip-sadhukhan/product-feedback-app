@@ -1,11 +1,12 @@
 import ColorBox from "../components/suggestions/color-box";
+import EmptySuggestionBox from "../components/suggestions/empty-suggestion-box";
 import RoadMapBox from "../components/suggestions/roadmap-box";
 import SuggestionCard from "../components/suggestions/suggestion-card";
 import SuggestionsHeader from "../components/suggestions/suggestions-header";
 import TagsBox from "../components/suggestions/tags-box";
 
 const SuggestionsPage = () => {
-  const productRequests = [
+  let productRequests = [
     {
       id: 1,
       title: "Add tags for solutions",
@@ -340,7 +341,7 @@ const SuggestionsPage = () => {
             <SuggestionsHeader />
 
             <div className="flex flex-col gap-y-5">
-              {
+              {productRequests.length > 0 ? (
                 productRequests.map((product, index) => (
                   <SuggestionCard
                     key={product.id}
@@ -352,7 +353,9 @@ const SuggestionsPage = () => {
                     commentsCount={product.comments?.length || 0}
                   />
                 ))
-              }
+              ) : (
+                <EmptySuggestionBox />
+              )}
             </div>
           </main>
         </div>

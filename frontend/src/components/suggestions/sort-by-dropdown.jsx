@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import cn from "classnames"
 
-const SortByDropdown = () => {
+const SortByDropdown = ({disabled= false}) => {
   const [sortBy, setSortBy] = useState("least-upvotes");
   const sortByOptions = [
     {option: "Most Upvotes", value: "most-upvotes"},
@@ -20,6 +20,11 @@ const SortByDropdown = () => {
 
   const toggleDropdownClick = (event) => {
     event.stopPropagation();
+
+    if (disabled) {
+      return;
+    }
+
     setIsDropdownOpen(prev => !prev)
   }
 
@@ -34,9 +39,9 @@ const SortByDropdown = () => {
     return () => document.body.removeEventListener("click", handleOutsideClick);
   });
   return (
-    <div className='relative'>
+    <div className='relative '>
       <div
-        className={cn('flex items-center gap-x-1 cursor-pointer', {'opacity-70': isDropdownOpen})}
+        className={cn('flex items-center gap-x-1 cursor-pointer', {'opacity-70': isDropdownOpen, 'opacity-25 cursor-not-allowed': disabled})}
         onClick={(event) => toggleDropdownClick(event)}
       >
         <span>Sort by :</span>
