@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import MobileSidebar from './mobile-sidebar';
 import BackDrop from './backdrop';
 import closeMenuIcon from '../../assets/shared/mobile/icon-close.svg'
-import hamburgerMenuIcon from '../../assets/shared/mobile/icon-close.svg'
+import hamburgerMenuIcon from '../../assets/shared/mobile/icon-hamburger.svg'
 
 const MobileNavbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
