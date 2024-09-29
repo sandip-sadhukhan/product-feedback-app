@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import cn from "classnames"
+import arrowDownIcon from '../../assets/suggestions/arrow-down-white.svg'
+import checkIcon from '../../assets/shared/icon-check.svg'
+
 
 const SortByDropdown = ({disabled= false}) => {
   const [sortBy, setSortBy] = useState("least-upvotes");
@@ -47,7 +50,7 @@ const SortByDropdown = ({disabled= false}) => {
         <span>Sort by :</span>
         <div className='flex items-center gap-x-2'>
           <h4 className='text-white'>{currentSortBy.option}</h4>
-          <img className={cn({'rotate-180': isDropdownOpen})} src="/public/assets/suggestions/arrow-down-white.svg" alt="arrow down" />
+          <img className={cn({'rotate-180': isDropdownOpen})} src={arrowDownIcon} alt="arrow down" />
         </div>
       </div>
 
@@ -59,7 +62,7 @@ const SortByDropdown = ({disabled= false}) => {
               <span className='group-hover:text-purple'>{option.option}</span>
               {
                 option.value === currentSortBy.value && (
-                  <img src="/public/assets/shared/icon-check.svg" alt="checked" />
+                  <img src={checkIcon} alt="checked" />
                 )
               }
             </div>

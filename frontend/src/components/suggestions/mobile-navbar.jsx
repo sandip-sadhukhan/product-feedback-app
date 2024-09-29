@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import MobileSidebar from './mobile-sidebar';
 import BackDrop from './backdrop';
+import closeMenuIcon from '../../assets/shared/mobile/icon-close.svg'
+import hamburgerMenuIcon from '../../assets/shared/mobile/icon-close.svg'
 
 const MobileNavbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -20,9 +22,9 @@ const MobileNavbar = () => {
         <button className="cursor-pointer" onClick={handleToggleSidebar}>
           {
             isSidebarOpen ? (
-              <img src="/public/assets/shared/mobile/icon-close.svg" alt="Close menu" />
+              <img src={closeMenuIcon} alt="Close menu" />
             ) : (
-              <img src="/public/assets/shared/mobile/icon-hamburger.svg" alt="Open menu" />
+              <img src={hamburgerMenuIcon} alt="Open menu" />
             )
           }
         </button>

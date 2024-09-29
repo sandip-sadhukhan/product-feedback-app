@@ -1,6 +1,8 @@
 import React from 'react'
 import Button from '../common/button'
 import SortByDropdown from './sort-by-dropdown';
+import suggestionIcon from '../../assets/suggestions/icon-suggestions.svg'
+import plusIcon from '../../assets/shared/icon-plus.svg'
 
 const SuggestionsHeader = () => {
   return (
@@ -9,16 +11,15 @@ const SuggestionsHeader = () => {
         <div className="flex items-center gap-x-[38px]">
           {/* Logo & heading */}
           <div className="hidden items-center gap-x-4 md:flex">
-            <img src="/public/assets/suggestions/icon-suggestions.svg" alt="Suggestion icon" />
+            <img src={suggestionIcon} alt="Suggestion icon" />
             <h3 className="text-white">6 Suggestions</h3>
           </div>
 
           <SortByDropdown />
         </div>
 
-        {/* <button className='flex items-center gap-2'><img src="/public/assets/shared/icon-plus.svg" alt="Plus icon" /> Add Feedback</button> */}
         <Button>
-          <img src="/public/assets/shared/icon-plus.svg" alt="Plus icon" width={12} />
+          <img src={plusIcon} alt="Plus icon" width={12} />
           Add Feedback
         </Button>
       </div>

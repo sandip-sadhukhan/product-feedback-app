@@ -22,6 +22,6 @@
 
 
 .color-box {
-  background-image: url("/public/assets/suggestions/desktop/background-header.png");
+  background-image: url("./assets/suggestions/desktop/background-header.png");
   background-size: cover;
 }

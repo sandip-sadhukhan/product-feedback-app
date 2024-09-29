@@ -1,6 +1,7 @@
 import React from "react";
 import Tag from "./tag";
 import UpvoteBox from "./upvote-box";
+import commentIcon from '../../assets/shared/icon-comments.svg'
 
 const SuggestionCard = (props) => {
   const {
@@ -34,7 +35,7 @@ const SuggestionCard = (props) => {
 
         {/* Comment count */}
         <div className="flex gap-x-2 items-center">
-          <img src="/public/assets/shared/icon-comments.svg" alt="Comment" />
+          <img src={commentIcon} alt="Comment" />
           <h4 className="text-[16px]">{commentsCount}</h4>
         </div>
       </div>

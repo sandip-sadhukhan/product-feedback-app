@@ -328,6 +328,8 @@ const SuggestionsPage = () => {
     },
   ];
 
+  productRequests = []
+
   return (
     <div className="bg-light-blue min-h-screen">
       <div className="container max-w-6xl mx-auto md:px-10">
