@@ -354,6 +354,7 @@ const SuggestionsPage = () => {
                 productRequests.map((product, index) => (
                   <SuggestionCard
                     key={product.id}
+                    id={product.id}
                     upvotesCount={product.upvotes}
                     isUpvotedByCurrentUser={index === 3}
                     title={product.title}
