@@ -1,5 +1,6 @@
 import ColorBox from "../components/suggestions/color-box";
 import EmptySuggestionBox from "../components/suggestions/empty-suggestion-box";
+import MobileNavbar from "../components/suggestions/mobile-navbar";
 import RoadMapBox from "../components/suggestions/roadmap-box";
 import SuggestionCard from "../components/suggestions/suggestion-card";
 import SuggestionsHeader from "../components/suggestions/suggestions-header";
@@ -332,7 +333,8 @@ const SuggestionsPage = () => {
       <div className="container max-w-6xl mx-auto md:px-10">
         <div className="flex flex-col items-start md:gap-y-10 md:py-14 lg:gap-x-[30px] lg:flex-row lg:py-24">
 
-          {/* Mobile Header */}
+          {/* Mobile Navbar */}
+          <MobileNavbar />
 
           {/* Sidebar for Tablet and above */}
           <aside className="hidden flex-row min-w-full gap-x-2.5 md:flex lg:gap-y-6 lg:flex-col lg:min-w-[255px]">

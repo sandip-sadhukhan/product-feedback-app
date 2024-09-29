@@ -39,7 +39,7 @@ const SortByDropdown = ({disabled= false}) => {
     return () => document.body.removeEventListener("click", handleOutsideClick);
   });
   return (
-    <div className='relative '>
+    <div className='relative'>
       <div
         className={cn('flex items-center gap-x-1 cursor-pointer', {'opacity-70': isDropdownOpen, 'opacity-25 cursor-not-allowed': disabled})}
         onClick={(event) => toggleDropdownClick(event)}
