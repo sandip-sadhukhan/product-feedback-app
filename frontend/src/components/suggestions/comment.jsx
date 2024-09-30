@@ -27,7 +27,7 @@ const Comment = (props) => {
   return (
     <div className={cn("flex flex-col gap-y-4", {"py-6": !isReply})}>
       <div className="flex items-center justify-between">
-        <div className="flex gap-x-4">
+        <div className="flex gap-x-4 md:items-start">
           <img className="rounded-full w-10" src={image} alt={name} />
           <div className="flex flex-col">
             <h6 className="font-bold text-[13px] text-secondary-blue">
@@ -36,6 +36,10 @@ const Comment = (props) => {
             <span className="text-secondary-blue-dim text-[13px]">
               @{username}
             </span>
+
+            <p className={cn("hidden text-secondary-blue-dim text-[13px] leading-6 md:block", {"md:mt-4": !isReply, "md:mt-2.5": isReply})}>
+              {content}
+            </p>
           </div>
         </div>
 
@@ -44,14 +48,17 @@ const Comment = (props) => {
         </button>
       </div>
 
-      <p className="text-secondary-blue-dim text-[13px] leading-6">
+      <p className="block text-secondary-blue-dim text-[13px] leading-6 md:hidden">
         {content}
       </p>
 
       {
         replies.length > 0 && (
-          <div className="relative">
-            <div className="flex flex-col pl-6 gap-y-3">
+          <div className="flex gap-x-6 md:pl-5">
+            <div
+              className="w-px bg-secondary-blue-dim opacity-10 md:-mt-14"
+            ></div>
+            <div className="flex flex-col gap-y-3">
               {
                 replies.map((reply, index) => (
                   <Comment
@@ -63,9 +70,6 @@ const Comment = (props) => {
                 ))
               }
             </div>
-
-            {/* left border */}
-            <div className="absolute left-0 top-6 w-px h-[216px] bg-secondary-blue-dim opacity-10"></div>
           </div>
         )
       }

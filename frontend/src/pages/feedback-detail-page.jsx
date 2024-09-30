@@ -58,61 +58,63 @@ const FeedbackDetailPage = () => {
   };
 
   return (
-    <div className="flex flex-col gap-y-6 px-6 pt-6 pb-24 bg-light-blue min-h-screen md:pt-14">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <button onClick={() => navigate(-1)} className="flex items-center gap-x-3.5">
-          <img className='h-3' src={arrowLeftIcon} alt="back" />
-          <span className='text-secondary-blue-dim font-bold text-[13px]'>Go Back</span>
-        </button>
+    <div className="px-6 pt-6 pb-24 bg-light-blue min-h-screen md:pt-14">
+      <div className="flex flex-col gap-y-6 max-w-3xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <button onClick={() => navigate(-1)} className="flex items-center gap-x-3.5">
+            <img className='h-3' src={arrowLeftIcon} alt="back" />
+            <span className='text-secondary-blue-dim font-bold text-[13px]'>Go Back</span>
+          </button>
 
-        <Button colorScheme="blue">Edit Feedback</Button>
-      </div>
-
-      {/* Feedback */}
-      <SuggestionCard
-        id={suggestion.id}
-        upvotesCount={suggestion.upvotes}
-        isUpvotedByCurrentUser={false}
-        title={suggestion.title}
-        description={suggestion.description}
-        category={suggestion.category}
-        commentsCount={suggestion.comments?.length || 0}
-       />
-
-      {/* Comment section */}
-      <div className="flex flex-col bg-white pt-6 px-6 rounded-lg">
-        <h3>4 Comments</h3>
-
-        {/* Comments */}
-        <div className="flex flex-col divide-y">
-          {
-            suggestion.comments.map(comment => (
-              <Comment
-                key={comment.id}
-                content={comment.content}
-                user={comment.user}
-                replies={comment.replies}
-              />
-            ))
-          }
+          <Button colorScheme="blue">Edit Feedback</Button>
         </div>
-      </div>
 
-      {/* Add comment section */}
-      <div className="flex flex-col gap-y-6 bg-white p-6 rounded-lg">
-        <h3>Add Comment</h3>
+        {/* Feedback */}
+        <SuggestionCard
+          id={suggestion.id}
+          upvotesCount={suggestion.upvotes}
+          isUpvotedByCurrentUser={false}
+          title={suggestion.title}
+          description={suggestion.description}
+          category={suggestion.category}
+          commentsCount={suggestion.comments?.length || 0}
+        />
 
-        <div className="flex flex-col gap-y-4">
-          <textarea className='p-4 bg-lightest-blue rounded-lg h-20 text-[13px]' placeholder='Type your comment here'></textarea>
+        {/* Comment section */}
+        <div className="flex flex-col bg-white pt-6 px-6 rounded-lg">
+          <h3>4 Comments</h3>
 
-          <div className="flex items-center justify-between">
-            <p className='text-secondary-blue-dim text-[13px]'>250 Characters left</p>
-            <Button colorScheme="purple">Post Comment</Button>
+          {/* Comments */}
+          <div className="flex flex-col divide-y">
+            {
+              suggestion.comments.map(comment => (
+                <Comment
+                  key={comment.id}
+                  content={comment.content}
+                  user={comment.user}
+                  replies={comment.replies}
+                />
+              ))
+            }
           </div>
         </div>
-      </div>
 
+        {/* Add comment section */}
+        <div className="flex flex-col gap-y-6 bg-white p-6 rounded-lg">
+          <h3>Add Comment</h3>
+
+          <div className="flex flex-col gap-y-4">
+            <textarea className='p-4 bg-lightest-blue rounded-lg h-20 text-[13px]' placeholder='Type your comment here'></textarea>
+
+            <div className="flex items-center justify-between">
+              <p className='text-secondary-blue-dim text-[13px]'>250 Characters left</p>
+              <Button colorScheme="purple">Post Comment</Button>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   )
 }
