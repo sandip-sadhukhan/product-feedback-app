@@ -3,6 +3,7 @@ import Button from '../common/button'
 import SortByDropdown from './sort-by-dropdown';
 import suggestionIcon from '../../assets/suggestions/icon-suggestions.svg'
 import plusIcon from '../../assets/shared/icon-plus.svg'
+import { Link } from 'react-router-dom';
 
 const SuggestionsHeader = () => {
   return (
@@ -18,10 +19,12 @@ const SuggestionsHeader = () => {
           <SortByDropdown />
         </div>
 
-        <Button>
-          <img src={plusIcon} alt="Plus icon" width={12} />
-          Add Feedback
-        </Button>
+        <Link to="/feedback/add">
+          <Button>
+            <img src={plusIcon} alt="Plus icon" width={12} />
+            Add Feedback
+          </Button>
+        </Link>
       </div>
     </div>
   )

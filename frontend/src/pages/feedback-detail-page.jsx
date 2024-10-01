@@ -3,10 +3,11 @@ import arrowLeftIcon from '../assets/shared/icon-arrow-left.svg'
 import Button from '../components/common/button'
 import SuggestionCard from '../components/suggestions/suggestion-card'
 import Comment from '../components/suggestions/comment'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import GoBackButton from '../components/common/go-back-button'
+import TextArea from '../components/common/textarea'
 
 const FeedbackDetailPage = () => {
-  const navigate = useNavigate();
   const [comment, setComment] = useState("");
   const TOTAL_CHAR_LIMIT = 250;
   
@@ -64,10 +65,7 @@ const FeedbackDetailPage = () => {
       <div className="flex flex-col gap-y-6 max-w-3xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <button onClick={() => navigate(-1)} className="flex items-center gap-x-3.5">
-            <img className='h-3' src={arrowLeftIcon} alt="back" />
-            <span className='text-secondary-blue-dim font-bold text-[13px]'>Go Back</span>
-          </button>
+          <GoBackButton url="/" />
 
           <Button colorScheme="blue">Edit Feedback</Button>
         </div>
@@ -107,12 +105,11 @@ const FeedbackDetailPage = () => {
           <h3>Add Comment</h3>
 
           <div className="flex flex-col gap-y-4">
-            <textarea
-              className='p-4 bg-lightest-blue rounded-lg h-20 text-[13px] text-secondary-blue'
+            <TextArea
               placeholder='Type your comment here'
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-            ></textarea>
+            />
 
             <div className="flex items-center justify-between">
               <p className='text-secondary-blue-dim text-[13px]'>{TOTAL_CHAR_LIMIT - comment.length} Characters left</p>

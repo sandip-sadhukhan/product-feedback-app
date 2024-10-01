@@ -1,6 +1,7 @@
 import Button from "../common/button"
 import emptyIllustrationImg from '../../assets/suggestions/illustration-empty.svg';
 import plusIconImg from '../../assets/shared/icon-plus.svg'
+import { Link } from "react-router-dom";
 
 const EmptySuggestionBox = () => {
   return (
@@ -14,10 +15,12 @@ const EmptySuggestionBox = () => {
         </p>
       </div>
 
-      <Button>
-        <img src={plusIconImg} alt="Plus icon" width={12} />
-        Add Feedback
-      </Button>
+      <Link to="/feedback/add">
+        <Button>
+          <img src={plusIconImg} alt="Plus icon" width={12} />
+          Add Feedback
+        </Button>
+      </Link>
     </div>
   )
 }

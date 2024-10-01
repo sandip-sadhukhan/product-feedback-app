@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import Button from '../common/button';
 import { useState } from 'react';
+import TextArea from '../common/textarea';
 
 const Comment = (props) => {
   const [isCommentInputOpened, setIsCommentInputOpened] = useState(false);
@@ -48,10 +49,7 @@ const Comment = (props) => {
             {
               isCommentInputOpened && (
               <div className="hidden items-start gap-x-2 md:flex mt-6">
-                <textarea
-                  className='flex-1 p-4 bg-lightest-blue rounded-lg h-20 text-[13px] text-secondary-blue'
-                  placeholder='Type your comment here'
-                ></textarea>
+                <TextArea />
                 <Button colorScheme="purple">Post Comment</Button>
               </div>
               )
@@ -80,10 +78,7 @@ const Comment = (props) => {
       {
         isCommentInputOpened && (
           <div className="flex items-start gap-x-2 md:hidden">
-            <textarea
-              className='flex-1 p-4 bg-lightest-blue rounded-lg h-20 text-[13px] text-secondary-blue'
-              placeholder='Type your comment here'
-            ></textarea>
+            <TextArea />
             <Button colorScheme="purple">Post Comment</Button>
           </div>
         )

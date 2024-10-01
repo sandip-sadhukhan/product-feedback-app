@@ -4,11 +4,21 @@ import {RouterProvider, createBrowserRouter} from "react-router-dom"
 import './index.css'
 import SuggestionsPage from './pages/suggestions-page.jsx'
 import FeedbackDetailPage from './pages/feedback-detail-page.jsx'
+import AddFeedbackPage from './pages/add-feedback-page.jsx'
+import EditFeedbackPage from './pages/edit-feedback-page.jsx'
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <SuggestionsPage />
+  },
+  {
+    path: "/feedback/add/",
+    element: <AddFeedbackPage />
+  },
+  {
+    path: "/feedback/edit/:feedbackId",
+    element: <EditFeedbackPage />
   },
   {
     path: "/feedback/:feedbackId",
