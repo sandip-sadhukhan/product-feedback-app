@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import arrowLeftIcon from '../assets/shared/icon-arrow-left.svg'
 import Button from '../components/common/button'
 import SuggestionCard from '../components/suggestions/suggestion-card'
@@ -7,6 +7,8 @@ import { Link, useNavigate } from 'react-router-dom'
 
 const FeedbackDetailPage = () => {
   const navigate = useNavigate();
+  const [comment, setComment] = useState("");
+  const TOTAL_CHAR_LIMIT = 250;
   
   const suggestion = {
     "id": 2,
@@ -105,15 +107,19 @@ const FeedbackDetailPage = () => {
           <h3>Add Comment</h3>
 
           <div className="flex flex-col gap-y-4">
-            <textarea className='p-4 bg-lightest-blue rounded-lg h-20 text-[13px]' placeholder='Type your comment here'></textarea>
+            <textarea
+              className='p-4 bg-lightest-blue rounded-lg h-20 text-[13px] text-secondary-blue'
+              placeholder='Type your comment here'
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            ></textarea>
 
             <div className="flex items-center justify-between">
-              <p className='text-secondary-blue-dim text-[13px]'>250 Characters left</p>
+              <p className='text-secondary-blue-dim text-[13px]'>{TOTAL_CHAR_LIMIT - comment.length} Characters left</p>
               <Button colorScheme="purple">Post Comment</Button>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   )
