@@ -33,6 +33,12 @@ const RoadmapPage = () => {
   ]
   const mobileSelectedColumn = columns.find(column => column.id == mobileSelectedColumnId);
 
+  const statusBorderClassMap = {
+    planned: 'border-light-orange',
+    'in-progress': 'border-purple',
+    live: 'border-sky-blue'
+  };
+
   return (
     <div className="bg-lightest-blue min-h-screen">
       <div className='max-w-6xl mx-auto md:px-10 md:py-14'>
@@ -55,7 +61,9 @@ const RoadmapPage = () => {
         <div className="flex justify-between font-bold text-[13px] text-secondary-blue text-center border-b md:hidden">
           {
             columns.map(column => (
-              <div onClick={() => setMobileSelectedColumnId(column.id)} className={cn("flex-1 py-5 cursor-pointer", {"opacity-40": mobileSelectedColumnId !== column.id, "border-b-[4.5px] border-purple": mobileSelectedColumnId === column.id})}>
+              <div onClick={() => setMobileSelectedColumnId(column.id)} className={cn(`flex-1 py-5 cursor-pointer ${statusBorderClassMap[mobileSelectedColumn.value]}`,
+              {"opacity-40": mobileSelectedColumnId !== column.id,
+               'border-b-[4.5px]': mobileSelectedColumnId === column.id})}>
                 <h5>{column.label} ({column.count})</h5>
               </div>
             ))
