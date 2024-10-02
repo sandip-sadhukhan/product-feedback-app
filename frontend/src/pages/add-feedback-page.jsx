@@ -31,7 +31,7 @@ const AddFeedbackPage = () => {
             <img className='h-4 translate-x-px translate-y-px' src={plusIcon} alt="Plus icon" />
           </div>
 
-          <h3>Create New Feedback</h3>
+          <h3 className='md:mb-4'>Create New Feedback</h3>
 
           <div className="flex flex-col gap-y-4 w-full">
             <div className="flex flex-col gap-y-[3px]">

@@ -48,7 +48,7 @@ const Dropdown = ({ value, options, onOptionClick, disabled = false }) => {
         )}
         onClick={toggleDropdownClick}
       >
-        <span>{currentCategoryOption.label}</span>
+        <span className="text-sm">{currentCategoryOption.label}</span>
         <img src={arrowDownIcon} alt="arrow" />
       </div>
 
@@ -56,7 +56,7 @@ const Dropdown = ({ value, options, onOptionClick, disabled = false }) => {
       {isDropdownOpen && (
         <div
           className={cn(
-            "absolute top-16 left-0 w-full flex-col bg-white text-black text-[16px] rounded-lg border drop-shadow-xl divide-y",
+            "absolute z-10 top-16 left-0 w-full flex-col bg-white text-black text-[16px] rounded-lg border drop-shadow-xl divide-y",
             { flex: isDropdownOpen, hidden: !isDropdownOpen }
           )}
         >
@@ -66,7 +66,7 @@ const Dropdown = ({ value, options, onOptionClick, disabled = false }) => {
               className="flex items-center justify-between py-3 px-6 cursor-pointer group"
               onClick={(event) => handleOptionClick(event, option.value)}
             >
-              <span className="group-hover:text-purple">{option.label}</span>
+              <span className="text-sm group-hover:text-purple">{option.label}</span>
               {option.value === currentCategoryOption.value && (
                 <img src={checkIcon} alt="checked" />
               )}

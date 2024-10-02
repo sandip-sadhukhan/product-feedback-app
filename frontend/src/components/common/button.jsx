@@ -8,12 +8,14 @@ const Button = (props) => {
     purple: "bg-purple",
     blue: "bg-dark-blue",
     'secondary-blue': "bg-secondary-blue",
+    red: "bg-[#D73737]"
   }
 
   const bgHoverClassMap = {
     purple: "hover:bg-[#C75AF6]",
     blue: "hover:bg-[#7C91F9]",
     'secondary-blue': "hover:bg-[#656EA3]",
+    red: "hover:bg-[#E98888]"
   }
 
   return (

@@ -67,7 +67,9 @@ const FeedbackDetailPage = () => {
         <div className="flex items-center justify-between">
           <GoBackButton url="/" />
 
-          <Button colorScheme="blue">Edit Feedback</Button>
+          <Link to="/feedback/edit/1">
+            <Button colorScheme="blue">Edit Feedback</Button>
+          </Link>
         </div>
 
         {/* Feedback */}
