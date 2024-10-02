@@ -1,3 +1,5 @@
+import { useState } from "react";
+import Modal from "../components/common/modal";
 import ColorBox from "../components/suggestions/color-box";
 import EmptySuggestionBox from "../components/suggestions/empty-suggestion-box";
 import MobileNavbar from "../components/suggestions/mobile-navbar";
@@ -7,6 +9,8 @@ import SuggestionsHeader from "../components/suggestions/suggestions-header";
 import TagsBox from "../components/suggestions/tags-box";
 
 const SuggestionsPage = () => {
+  const [signInModalOpen, setSignInModalOpen] = useState(false);
+
   let productRequests = [
     {
       id: 1,
@@ -370,6 +374,7 @@ const SuggestionsPage = () => {
           </main>
         </div>
       </div>
+      <Modal isOpen={signInModalOpen} onClose={() => setSignInModalOpen(false)} />
     </div>
   );
 };
