@@ -1,12 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import GoBackButton from '../components/common/go-back-button'
 import plusIcon from '../assets/shared/icon-plus.svg'
-import arrowDownIcon from '../assets/shared/icon-arrow-down.svg'
 import Input from '../components/common/input'
 import TextArea from '../components/common/textarea'
 import Button from '../components/common/button'
+import Dropdown from '../components/common/dropdown'
 
 const AddFeedbackPage = () => {
+  const [formData, setFormData] = useState({
+    title: "",
+    category: "feature",
+    description: ""
+  });
+
+  const categoryOptions = [
+    {label: "Feature", value: "feature"},
+    {label: "UI", value: "ui"},
+    {label: "UX", value: "ux"},
+    {label: "Enhancement", value: "enhancement"},
+    {label: "Bug", value: "bug"},
+  ]
+
   return (
     <div className="flex flex-col gap-y-14 bg-lightest-blue p-6 min-h-screen">
       <GoBackButton url="/" />
@@ -35,10 +49,11 @@ const AddFeedbackPage = () => {
               Choose a category for your feedback
             </p>
           </div>
-          <div className='flex items-center justify-between bg-lightest-blue text-secondary-blue px-6 py-[13px] text-[15px] rounded-md' type="text">
-            <span>Feature</span>
-            <img src={arrowDownIcon} alt="arrow" />
-          </div>
+          <Dropdown
+            value={formData.category}
+            options={categoryOptions}
+            onOptionClick={(value) => setFormData({...formData, category: value})}
+          />
         </div>
 
         <div className="flex flex-col gap-y-4 w-full">
