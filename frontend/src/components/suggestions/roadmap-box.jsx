@@ -1,5 +1,6 @@
 import React from "react";
 import cn from "classnames";
+import { Link } from "react-router-dom";
 
 const RoadMapBox = () => {
   const columns = [
@@ -15,14 +16,14 @@ const RoadMapBox = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2>Roadmap</h2>
-        <a
-          href="#"
+        <Link
+          to="/roadmap"
           className={cn("text-[13px] text-dark-blue underline font-semibold", {
             "opacity-25 cursor-not-allowed": isViewBtnDisabled,
           })}
         >
           View
-        </a>
+        </Link>
       </div>
 
       {/* Columns */}

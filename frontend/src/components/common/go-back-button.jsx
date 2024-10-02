@@ -1,15 +1,16 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import arrowLeftIcon from '../../assets/shared/icon-arrow-left.svg'
+import { twMerge } from 'tailwind-merge'
 
-const GoBackButton = ({url="/"}) => {
+const GoBackButton = ({className=""}) => {
+  const navigate = useNavigate();
+
   return (
-    <Link to={url}>
-      <button className="flex items-center gap-x-3.5">
-        <img className='h-3' src={arrowLeftIcon} alt="back" />
-        <span className='text-secondary-blue-dim font-bold text-[13px]'>Go Back</span>
-      </button>
-    </Link>
+    <button onClick={() => navigate(-1)} className="flex items-center gap-x-3.5">
+      <img className='h-3' src={arrowLeftIcon} alt="back" />
+      <span className={twMerge('text-secondary-blue-dim font-bold text-[13px]', className)}>Go Back</span>
+    </button>
   )
 }
 

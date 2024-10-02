@@ -2,7 +2,7 @@ import React from 'react'
 
 const Button = (props) => {
 
-  const {children, colorScheme="purple"} = props;
+  const {children, colorScheme="purple", ...extraProps} = props;
 
   const bgColorClassMap = {
     purple: "bg-purple",
@@ -19,7 +19,10 @@ const Button = (props) => {
   }
 
   return (
-    <button className={`flex gap-x-1 items-center justify-center text-white font-bold text-[13px] rounded-lg cursor-pointer px-4 py-[10.5px] ${bgColorClassMap[colorScheme]} ${bgHoverClassMap[colorScheme]} md:text-sm md:py-3 md:px-6`}>
+    <button
+      className={`flex gap-x-1 items-center justify-center text-white font-bold text-[13px] rounded-lg cursor-pointer px-4 py-[10.5px] ${bgColorClassMap[colorScheme]} ${bgHoverClassMap[colorScheme]} md:text-sm md:py-3 md:px-6`}
+      {...extraProps}
+    >
       {children}
     </button>
   )

@@ -5,8 +5,11 @@ import Input from '../components/common/input'
 import TextArea from '../components/common/textarea'
 import Button from '../components/common/button'
 import Dropdown from '../components/common/dropdown'
+import { useNavigate } from 'react-router-dom'
 
 const EditFeedbackPage = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: "",
     category: "feature",
@@ -32,7 +35,7 @@ const EditFeedbackPage = () => {
   return (
     <div className="bg-lightest-blue p-6 min-h-screen">
       <div className="flex flex-col gap-y-14 max-w-xl mx-auto">
-        <GoBackButton url="/" />
+        <GoBackButton />
 
         <div className="flex flex-col items-start gap-y-6 p-6 bg-white rounded-lg">
           <img className='h-14 -mt-12' src={editIcon} alt="Edit icon" />
@@ -90,7 +93,7 @@ const EditFeedbackPage = () => {
           <div className="flex flex-col gap-y-4 mt-4 w-full md:flex-row-reverse md:justify-between md:gap-x-4 md:mt-2">
             <div className="flex flex-col gap-y-4 md:flex-row-reverse md:gap-x-4">
               <Button>Save Changes</Button>
-              <Button colorScheme="secondary-blue">Cancel</Button>
+              <Button onClick={() => navigate(-1)} colorScheme="secondary-blue">Cancel</Button>
             </div>
 
             <Button colorScheme="red">Delete</Button>

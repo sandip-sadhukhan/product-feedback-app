@@ -6,6 +6,7 @@ import SuggestionsPage from './pages/suggestions-page.jsx'
 import FeedbackDetailPage from './pages/feedback-detail-page.jsx'
 import AddFeedbackPage from './pages/add-feedback-page.jsx'
 import EditFeedbackPage from './pages/edit-feedback-page.jsx'
+import RoadmapPage from './pages/roadmap-page.jsx'
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,11 @@ const router = createBrowserRouter([
   {
     path: "/feedback/:feedbackId",
     element: <FeedbackDetailPage />
-  }
+  },
+  {
+    path: "/roadmap",
+    element: <RoadmapPage />
+  },
 ])
 
 createRoot(document.getElementById('root')).render(
