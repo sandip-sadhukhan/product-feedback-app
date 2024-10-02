@@ -22,55 +22,57 @@ const AddFeedbackPage = () => {
   ]
 
   return (
-    <div className="flex flex-col gap-y-14 bg-lightest-blue p-6 min-h-screen">
-      <GoBackButton url="/" />
+    <div className="bg-lightest-blue p-6 min-h-screen">
+      <div className="flex flex-col gap-y-14 max-w-xl mx-auto">
+        <GoBackButton url="/" />
 
-      <div className="flex flex-col items-start gap-y-6 p-6 bg-white rounded-lg">
-        <div className="color-box p-3.5 rounded-full -mt-11">
-          <img className='h-4 translate-x-px translate-y-px' src={plusIcon} alt="Plus icon" />
-        </div>
-
-        <h3>Create New Feedback</h3>
-
-        <div className="flex flex-col gap-y-4 w-full">
-          <div className="flex flex-col gap-y-[3px]">
-            <h4>Feedback Title</h4>
-            <p className="text-secondary-blue-dim text-[13px]">
-              Add a short, descriptive headline
-            </p>
+        <div className="flex flex-col items-start gap-y-6 p-6 bg-white rounded-lg">
+          <div className="color-box p-3.5 rounded-full -mt-11">
+            <img className='h-4 translate-x-px translate-y-px' src={plusIcon} alt="Plus icon" />
           </div>
-          <Input />
-        </div>
 
-        <div className="flex flex-col gap-y-4 w-full">
-          <div className="flex flex-col gap-y-[3px]">
-            <h4>Category</h4>
-            <p className="text-secondary-blue-dim text-[13px]">
-              Choose a category for your feedback
-            </p>
+          <h3>Create New Feedback</h3>
+
+          <div className="flex flex-col gap-y-4 w-full">
+            <div className="flex flex-col gap-y-[3px]">
+              <h4>Feedback Title</h4>
+              <p className="text-secondary-blue-dim text-[13px]">
+                Add a short, descriptive headline
+              </p>
+            </div>
+            <Input />
           </div>
-          <Dropdown
-            value={formData.category}
-            options={categoryOptions}
-            onOptionClick={(value) => setFormData({...formData, category: value})}
-          />
-        </div>
 
-        <div className="flex flex-col gap-y-4 w-full">
-          <div className="flex flex-col gap-y-[3px]">
-            <h4>Feedback Detail</h4>
-            <p className="text-secondary-blue-dim text-[13px]">
-              Include any specific comments on what should be improved, added, etc.
-            </p>
+          <div className="flex flex-col gap-y-4 w-full">
+            <div className="flex flex-col gap-y-[3px]">
+              <h4>Category</h4>
+              <p className="text-secondary-blue-dim text-[13px]">
+                Choose a category for your feedback
+              </p>
+            </div>
+            <Dropdown
+              value={formData.category}
+              options={categoryOptions}
+              onOptionClick={(value) => setFormData({...formData, category: value})}
+            />
           </div>
-          <TextArea rows={4} />
-        </div>
 
-        <div className="flex flex-col gap-y-4 mt-4 w-full">
-          <Button>Add Feedback</Button>
-          <Button colorScheme="secondary-blue">Cancel</Button>
-        </div>
+          <div className="flex flex-col gap-y-4 w-full">
+            <div className="flex flex-col gap-y-[3px]">
+              <h4>Feedback Detail</h4>
+              <p className="text-secondary-blue-dim text-[13px]">
+                Include any specific comments on what should be improved, added, etc.
+              </p>
+            </div>
+            <TextArea rows={4} />
+          </div>
 
+          <div className="flex flex-col gap-y-4 mt-4 w-full md:flex-row-reverse md:justify-start md:gap-x-4 md:mt-2">
+            <Button>Add Feedback</Button>
+            <Button colorScheme="secondary-blue">Cancel</Button>
+          </div>
+
+        </div>
       </div>
     </div>
   )
