@@ -17,6 +17,10 @@ DEBUG = config("DEBUG", default=False, cast=bool)
 ALLOWED_HOSTS = config("ALLOWED_HOSTS").split(" ")
 
 
+THIRD_PARTY_APPS = [
+    "django_extensions",
+]
+
 MY_APPS = [
   "accounts.apps.AccountsConfig",
 ]
@@ -30,7 +34,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    *MY_APPS
+    *THIRD_PARTY_APPS,
+    *MY_APPS,
 ]
 
 MIDDLEWARE = [
@@ -115,3 +120,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+# Custom User object
+AUTH_USER_MODEL = "accounts.User"
