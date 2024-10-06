@@ -16,9 +16,24 @@ DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS").split(" ")
 
+# Cors settings
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ORIGIN_WHITELIST = config("CORS_ALLOWED_ORIGINS").split(" ")
+
+# Session settings
+SESSION_COOKIE_AGE = default=1209600  # Default - 2 weeks in seconds
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_NAME = "sessionid"
+SESSION_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_SECURE = False
+CSRF_USE_SESSIONS = True
+
 
 THIRD_PARTY_APPS = [
     "django_extensions",
+    "corsheaders",
+    "rest_framework",
 ]
 
 MY_APPS = [
@@ -41,6 +56,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -129,3 +145,13 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 # Custom User object
 AUTH_USER_MODEL = "accounts.User"
+
+# REST framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':[
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES':[
+        'rest_framework.permissions.IsAuthenticated'
+    ]
+}
