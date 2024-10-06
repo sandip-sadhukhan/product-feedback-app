@@ -23,13 +23,10 @@ CORS_ORIGIN_WHITELIST = config("CORS_ALLOWED_ORIGINS").split(" ")
 
 # Session settings
 SESSION_COOKIE_AGE = default=1209600  # Default - 2 weeks in seconds
-SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_NAME = "sessionid"
-SESSION_COOKIE_SAMESITE = "Lax"
-SESSION_COOKIE_SECURE = False
 CSRF_USE_SESSIONS = True
 
-
+# Apps
 THIRD_PARTY_APPS = [
     "django_extensions",
     "corsheaders",
@@ -38,9 +35,9 @@ THIRD_PARTY_APPS = [
 
 MY_APPS = [
   "accounts.apps.AccountsConfig",
+  "suggestions.apps.SuggestionsConfig",
 ]
 
-# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
