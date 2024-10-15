@@ -1,4 +1,4 @@
-from django.db.models import Count, Value, Subquery, Exists, OuterRef
+from django.db.models import Count, Value, Exists, OuterRef
 from suggestions import models
 
 def feedback_list(*, user):
@@ -14,7 +14,8 @@ def feedback_list(*, user):
     list_of_feedbacks = models.Feedback.objects\
         .annotate(upvote_count=Count('upvotes'),
                   comment_count=Count("comments"))\
-        .annotate(**extra_annotates)
+        .annotate(**extra_annotates)\
+        .order_by('-upvote_count')
 
     return list_of_feedbacks
 
