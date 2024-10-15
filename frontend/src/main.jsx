@@ -1,12 +1,15 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import {RouterProvider, createBrowserRouter} from "react-router-dom"
+import {Provider as ReduxProvider} from 'react-redux';
+
 import './index.css'
 import SuggestionsPage from './pages/suggestions-page.jsx'
 import FeedbackDetailPage from './pages/feedback-detail-page.jsx'
 import AddFeedbackPage from './pages/add-feedback-page.jsx'
 import EditFeedbackPage from './pages/edit-feedback-page.jsx'
 import RoadmapPage from './pages/roadmap-page.jsx'
+import { store } from './redux/store.js';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +36,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ReduxProvider store={store}>
+      <RouterProvider router={router} />
+    </ReduxProvider>
   </StrictMode>,
 )

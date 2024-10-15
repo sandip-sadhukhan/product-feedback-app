@@ -22,8 +22,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_WHITELIST = config("CORS_ALLOWED_ORIGINS").split(" ")
 
 # Session settings
-SESSION_COOKIE_AGE = default=1209600  # Default - 2 weeks in seconds
-SESSION_COOKIE_NAME = "sessionid"
 CSRF_USE_SESSIONS = True
 
 # Apps
