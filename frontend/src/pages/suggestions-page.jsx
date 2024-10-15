@@ -9,6 +9,7 @@ import SuggestionsHeader from "../components/suggestions/suggestions-header";
 import TagsBox from "../components/suggestions/tags-box";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "../utils/axios-instance";
+import { loadFeedbacks } from "../redux/reducers/feedback-slice";
 
 
 const SuggestionsPage = () => {
@@ -18,8 +19,20 @@ const SuggestionsPage = () => {
   const [signInModalOpen, setSignInModalOpen] = useState(false);
 
   const fetchFeedbacks = async() => {
-    const res = await axios.get("/feedbacks/")
-    console.log(res);
+    const data = (await axios.get("/feedbacks/")).data;
+    dispatch(loadFeedbacks(data));
+  }
+
+  const categoryValueToName = {
+    1: 'Feature',
+    2: 'UI',
+    3: 'UX',
+    4: 'Enhancement',
+    5: 'Bug'
+  };
+
+  const getCategoryName = (categoryValue) => {
+    return categoryValueToName[categoryValue];
   }
 
   useEffect(() => {
@@ -48,16 +61,16 @@ const SuggestionsPage = () => {
             {/* Suggestions */}
             <div className="flex flex-col gap-y-5 px-6 md:px-0">
               {feedbacks.length > 0 ? (
-                feedbacks.map((product, index) => (
+                feedbacks.map(product => (
                   <SuggestionCard
                     key={product.id}
                     id={product.id}
-                    upvotesCount={product.upvotes}
-                    isUpvotedByCurrentUser={index === 3}
+                    upvotesCount={product.upvote_count}
+                    isUpvotedByCurrentUser={product.upvoted_by_current_user}
                     title={product.title}
                     description={product.description}
-                    category={product.category}
-                    commentsCount={product.comments?.length || 0}
+                    category={getCategoryName(product.category)}
+                    commentsCount={product.comment_count}
                   />
                 ))
               ) : (

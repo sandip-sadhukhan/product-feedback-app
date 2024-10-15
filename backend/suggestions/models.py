@@ -82,7 +82,8 @@ class Comment(models.Model):
         on_delete=models.CASCADE, related_name="reply_comments",
         null=True, blank=True)
     reply_to_user = models.ForeignKey(User, related_name="replied_comments",
-                                      on_delete=models.CASCADE)
+                                      on_delete=models.CASCADE, null=True,
+                                      blank=True)
 
     created_by = models.ForeignKey(User, related_name="comments",
                                    on_delete=models.CASCADE)
