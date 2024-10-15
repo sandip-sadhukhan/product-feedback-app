@@ -2,7 +2,15 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   feedbacks: [],
-  isLoading: true
+  isLoading: true,
+  roadmapBox: {
+    isLoading: true,
+    data: {
+      Planned: 0,
+      'In-Progress': 0,
+      Live: 0
+    }
+  }
 }
 
 export const feedbackSlice = createSlice({
@@ -15,10 +23,13 @@ export const feedbackSlice = createSlice({
     },
     setLoading: (state) => {
       state.isLoading = true;
+    },
+    loadRoadmapBoxData: (state, action) => {
+      state.roadmapBox = action.payload;
     }
   }
 })
 
-export const {loadFeedbacks, setLoading} = feedbackSlice.actions;
+export const {loadFeedbacks, setLoading, loadRoadmapBoxData} = feedbackSlice.actions;
 
 export default feedbackSlice.reducer;

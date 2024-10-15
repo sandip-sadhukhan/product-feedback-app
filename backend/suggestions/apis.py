@@ -23,3 +23,16 @@ class FeedbackListApi(APIView):
 
         return Response(data)
     
+class RoadmapCountListApi(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    class OutputSerializer(serializers.Serializer):
+        status = serializers.IntegerField()
+        count = serializers.IntegerField()
+    
+    def get(self, request):
+        roadmap_counts = selectors.roadmap_count_list()
+        
+        data = self.OutputSerializer(roadmap_counts, many=True).data
+
+        return Response(data)

@@ -1,12 +1,15 @@
 import React from "react";
 import cn from "classnames";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const RoadMapBox = () => {
+  const { roadmapBox } = useSelector((state) => state.feedback);
+
   const columns = [
-    { name: "Planned", count: 2, circle_bg: "bg-light-orange" },
-    { name: "In-Progress", count: 3, circle_bg: "bg-purple" },
-    { name: "Live", count: 1, circle_bg: "bg-sky-blue" },
+    { name: "Planned", count: roadmapBox.data['Planned'], circle_bg: "bg-light-orange" },
+    { name: "In-Progress", count: roadmapBox.data['In-Progress'], circle_bg: "bg-purple" },
+    { name: "Live", count: roadmapBox.data['Live'], circle_bg: "bg-sky-blue" },
   ];
 
   const isViewBtnDisabled = !columns.some((column) => column.count > 0);

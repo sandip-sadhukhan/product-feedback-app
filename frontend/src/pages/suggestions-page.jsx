@@ -9,7 +9,7 @@ import SuggestionsHeader from "../components/suggestions/suggestions-header";
 import TagsBox from "../components/suggestions/tags-box";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "../utils/axios-instance";
-import { loadFeedbacks } from "../redux/reducers/feedback-slice";
+import { loadFeedbacks, loadRoadmapBoxData } from "../redux/reducers/feedback-slice";
 
 
 const SuggestionsPage = () => {
@@ -31,12 +31,42 @@ const SuggestionsPage = () => {
     5: 'Bug'
   };
 
+  const statusNameToValue = {
+    'Suggestion': 1,
+    'Planned': 2,
+    'In-Progress': 3,
+    'Live': 4
+  }
+
   const getCategoryName = (categoryValue) => {
     return categoryValueToName[categoryValue];
   }
 
+
+  const fetchRoadmapCounts = async () => {
+    const data = (await axios.get("/feedbacks/roadmap-count/")).data;
+
+    const getCountFromData = (data, statusName) => {
+      const statusValue = statusNameToValue[statusName];
+      const count = data.find(item => item.status === statusValue).count;
+      return count;
+    }
+
+    const roadmapData = {
+      isLoading: false,
+      data: {
+        Planned: getCountFromData(data, 'Planned'),
+        'In-Progress': getCountFromData(data, 'In-Progress'),
+        Live: getCountFromData(data, 'Live')
+      }
+    }
+
+    dispatch(loadRoadmapBoxData(roadmapData));
+  }
+
   useEffect(() => {
     fetchFeedbacks();
+    fetchRoadmapCounts();
   }, [])
 
   return (

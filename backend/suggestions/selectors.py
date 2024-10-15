@@ -17,3 +17,21 @@ def feedback_list(*, user):
         .annotate(**extra_annotates)
 
     return list_of_feedbacks
+
+def roadmap_count_list():
+    statuses = [models.Feedback.PLANNED, models.Feedback.IN_PROGRESS,
+                models.Feedback.LIVE]
+    status_count_map = dict(models.Feedback.objects
+        .filter(status__in=statuses)
+        .values_list("status")
+        .annotate(count=Count('id')))
+
+    status_count_list = []
+
+    for status in statuses:
+        status_count_list.append({
+            'status': status,
+            'count': status_count_map.get(status, 0)
+        })
+
+    return status_count_list
