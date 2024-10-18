@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 
-const Tag = ({ children, isActive = false, noHover=false }) => {
+const Tag = ({ children, isActive = false, noHover=false, onClick }) => {
   return (
     <div
       className={cn("text-[13px] py-1.5 px-4 rounded-lg font-semibold", {
@@ -12,6 +12,7 @@ const Tag = ({ children, isActive = false, noHover=false }) => {
         "cursor-pointer": !noHover,
         "cursor-default": noHover,
       })}
+      onClick={onClick}
     >
       {children}
     </div>

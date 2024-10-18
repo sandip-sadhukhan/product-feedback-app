@@ -2,6 +2,10 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   feedbacks: [],
+  filters: {
+    category: 'all',
+    sortBy: 'most-upvotes'
+  },
   isLoading: true,
   roadmapBox: {
     isLoading: true,
@@ -26,10 +30,22 @@ export const feedbackSlice = createSlice({
     },
     loadRoadmapBoxData: (state, action) => {
       state.roadmapBox = action.payload;
+    },
+    setSortBy: (state, action) => {
+      state.filters.sortBy = action.payload;
+    },
+    setCategoryFilter: (state, action) => {
+      state.filters.category = action.payload;
     }
   }
 })
 
-export const {loadFeedbacks, setLoading, loadRoadmapBoxData} = feedbackSlice.actions;
+export const {
+  loadFeedbacks,
+  setLoading,
+  loadRoadmapBoxData,
+  setSortBy,
+   setCategoryFilter
+} = feedbackSlice.actions;
 
 export default feedbackSlice.reducer;

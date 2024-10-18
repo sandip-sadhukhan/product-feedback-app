@@ -16,7 +16,7 @@ const SuggestionsHeader = () => {
           {/* Logo & heading */}
           <div className="hidden items-center gap-x-4 md:flex">
             <img src={suggestionIcon} alt="Suggestion icon" />
-            <h3 className="text-white">{feedbacks.length} Suggestions</h3>
+            <h3 className="text-white">{`${feedbacks.length} Suggestion${feedbacks.length > 1 ? "s" : ""}`}</h3>
           </div>
 
           <SortByDropdown />

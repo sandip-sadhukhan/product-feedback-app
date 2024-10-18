@@ -13,13 +13,20 @@ import { loadFeedbacks, loadRoadmapBoxData } from "../redux/reducers/feedback-sl
 
 
 const SuggestionsPage = () => {
-  const { feedbacks, isLoading } = useSelector((state) => state.feedback);
+  const { feedbacks, filters } = useSelector((state) => state.feedback);
   const dispatch = useDispatch();
 
   const [signInModalOpen, setSignInModalOpen] = useState(false);
 
   const fetchFeedbacks = async() => {
-    const data = (await axios.get("/feedbacks/")).data;
+    let url = "/feedbacks/";
+    const urlParams = new URLSearchParams();
+    urlParams.append("sortBy", filters.sortBy);
+    urlParams.append("category", filters.category);
+
+    url += `?${urlParams.toString()}`
+
+    const data = (await axios.get(url)).data;
     dispatch(loadFeedbacks(data));
   }
 
@@ -66,6 +73,9 @@ const SuggestionsPage = () => {
 
   useEffect(() => {
     fetchFeedbacks();
+  }, [filters])
+
+  useEffect(() => {
     fetchRoadmapCounts();
   }, [])
 

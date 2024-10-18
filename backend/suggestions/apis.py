@@ -7,6 +7,15 @@ from suggestions import selectors
 class FeedbackListApi(APIView):
     permission_classes = [permissions.AllowAny]
 
+    class InputSerializer(serializers.Serializer):
+        category = serializers.ChoiceField(
+            choices=['all', 'ui', 'ux', 'enhancement', 'bug', 'feature'],
+            required=False)
+        sortBy = serializers.ChoiceField(
+            choices=['most-upvotes', 'least-upvotes', 'most-comments',
+                     'least-comments'],
+            required=False)
+
     class OutputSerializer(serializers.Serializer):
         id = serializers.CharField()
         title = serializers.CharField()
@@ -17,7 +26,11 @@ class FeedbackListApi(APIView):
         comment_count = serializers.IntegerField()
 
     def get(self, request):
-        feedbacks = selectors.feedback_list(user=request.user)
+        serializer = self.InputSerializer(data=request.GET)
+        serializer.is_valid(raise_exception=True)
+        filters = serializer.validated_data
+
+        feedbacks = selectors.feedback_list(user=request.user, filters=filters)
 
         data = self.OutputSerializer(feedbacks, many=True).data
 

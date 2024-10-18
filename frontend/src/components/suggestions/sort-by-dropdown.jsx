@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import cn from "classnames"
+import {useDispatch, useSelector} from 'react-redux'
 import arrowDownIcon from '../../assets/suggestions/arrow-down-white.svg'
 import checkIcon from '../../assets/shared/icon-check.svg'
+import { setSortBy } from '../../redux/reducers/feedback-slice'
 
 
 const SortByDropdown = ({disabled= false}) => {
-  const [sortBy, setSortBy] = useState("least-upvotes");
+  const {filters: {sortBy}} = useSelector(state => state.feedback)
+  const dispatch = useDispatch();
+
   const sortByOptions = [
     {option: "Most Upvotes", value: "most-upvotes"},
     {option: "Least Upvotes", value: "least-upvotes"},
@@ -17,7 +21,7 @@ const SortByDropdown = ({disabled= false}) => {
 
   const handleOptionClick = (event, value) => {
     event.stopPropagation();
-    setSortBy(value);
+    dispatch(setSortBy(value));
     setIsDropdownOpen(false);
   }
 
