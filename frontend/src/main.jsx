@@ -10,6 +10,8 @@ import AddFeedbackPage from './pages/add-feedback-page.jsx'
 import EditFeedbackPage from './pages/edit-feedback-page.jsx'
 import RoadmapPage from './pages/roadmap-page.jsx'
 import { store } from './redux/store.js';
+import Modals from './components/common/modals.jsx';
+import AuthCheck from './hoc/auth-check.jsx';
 
 const router = createBrowserRouter([
   {
@@ -37,7 +39,11 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ReduxProvider store={store}>
-      <RouterProvider router={router} />
+      <AuthCheck>
+        <RouterProvider router={router} />
+
+        <Modals />
+      </AuthCheck>
     </ReduxProvider>
   </StrictMode>,
 )

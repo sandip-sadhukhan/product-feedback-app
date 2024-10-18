@@ -3,7 +3,7 @@ import Button from './button'
 import cn from 'classnames'
 import iconClose from '../../assets/shared/mobile/icon-close.svg'
 
-const Modal = ({isOpen, onClose}) => {
+const SignInModal = ({isOpen, onClose}) => {
   const handleClose = function(event) {
     event.stopPropagation();
     onClose(event);
@@ -34,4 +34,4 @@ const Modal = ({isOpen, onClose}) => {
   )
 }
 
-export default Modal
+export default SignInModal;

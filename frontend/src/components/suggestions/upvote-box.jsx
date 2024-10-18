@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 
-const UpvoteBox = ({ count, isActive = false, showHorizontal=false }) => {
+const UpvoteBox = ({ count, isActive = false, showHorizontal=false, onClick }) => {
   return (
     <div
       className={cn(
@@ -10,6 +10,7 @@ const UpvoteBox = ({ count, isActive = false, showHorizontal=false }) => {
         { "bg-dark-blue hover:opacity-90": isActive },
         {"md:py-3.5 md:px-2 md:gap-y-2  md:flex-col md:min-w-10": !showHorizontal}
       )}
+      onClick={onClick}
     >
       <svg className="w-2.5 h-2" xmlns="http://www.w3.org/2000/svg">
         <path

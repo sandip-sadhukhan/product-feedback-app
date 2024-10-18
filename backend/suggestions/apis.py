@@ -1,7 +1,9 @@
 from rest_framework.views import APIView
-from rest_framework import serializers, permissions
+from rest_framework import serializers, permissions, status
 from rest_framework.response import Response
-from suggestions import selectors
+from suggestions.mixins import ApiAuthMixin
+from suggestions import selectors, services
+
 
 
 class FeedbackListApi(APIView):
@@ -49,3 +51,19 @@ class RoadmapCountListApi(APIView):
         data = self.OutputSerializer(roadmap_counts, many=True).data
 
         return Response(data)
+
+
+class ToggleUpvoteApi(ApiAuthMixin, APIView):
+
+    def post(self, request, feedbackId):
+        services.toggle_upvote(user=request.user, feedbackId=feedbackId)
+
+        (total_upvotes, is_upvoted_by_current_user) = selectors\
+            .feedback_upvote_data(user=request.user, feedbackId=feedbackId)
+        
+        data = {
+            'upvote_count': total_upvotes,
+            'upvoted_by_current_user': is_upvoted_by_current_user
+        }
+
+        return Response(data, status=status.HTTP_202_ACCEPTED)

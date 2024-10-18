@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import Modal from "../components/common/modal";
+import { useEffect } from "react";
 import ColorBox from "../components/suggestions/color-box";
 import EmptySuggestionBox from "../components/suggestions/empty-suggestion-box";
 import MobileNavbar from "../components/suggestions/mobile-navbar";
@@ -10,13 +9,12 @@ import TagsBox from "../components/suggestions/tags-box";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "../utils/axios-instance";
 import { loadFeedbacks, loadRoadmapBoxData } from "../redux/reducers/feedback-slice";
+import { openSignInModal } from "../redux/reducers/modal-slice";
 
 
 const SuggestionsPage = () => {
   const { feedbacks, filters } = useSelector((state) => state.feedback);
   const dispatch = useDispatch();
-
-  const [signInModalOpen, setSignInModalOpen] = useState(false);
 
   const fetchFeedbacks = async() => {
     let url = "/feedbacks/";
@@ -48,7 +46,17 @@ const SuggestionsPage = () => {
   const getCategoryName = (categoryValue) => {
     return categoryValueToName[categoryValue];
   }
+  const {isAuthenticated} = useSelector(state => state.auth)
 
+  const isAuthCheck = (fn) => {
+    return function(...args) {
+      if (isAuthenticated) {
+        fn(...args);
+      } else {
+        dispatch(openSignInModal())
+      }
+    }
+  }
 
   const fetchRoadmapCounts = async () => {
     const data = (await axios.get("/feedbacks/roadmap-count/")).data;
@@ -78,6 +86,27 @@ const SuggestionsPage = () => {
   useEffect(() => {
     fetchRoadmapCounts();
   }, [])
+
+  const upvoteClickHandler = isAuthCheck(async(productId) => {
+    // Api call
+    const data = (await axios.post(`/feedbacks/${productId}/toggle-upvote/`)).data;
+
+    let newFeedbacks = [...feedbacks];
+
+    newFeedbacks = newFeedbacks.map(product => {
+      let newProduct = {...product};
+
+      if (product.id === productId) {
+        newProduct.upvote_count = data.upvote_count;
+        newProduct.upvoted_by_current_user = data.upvoted_by_current_user;
+      }
+
+      return newProduct;
+    })
+
+    dispatch(loadFeedbacks(newFeedbacks))
+  });
+
 
   return (
     <div className="bg-light-blue min-h-screen">
@@ -111,6 +140,7 @@ const SuggestionsPage = () => {
                     description={product.description}
                     category={getCategoryName(product.category)}
                     commentsCount={product.comment_count}
+                    onUpvoteClick={() => upvoteClickHandler(product.id)}
                   />
                 ))
               ) : (
@@ -121,7 +151,6 @@ const SuggestionsPage = () => {
         </div>
       </div>
 
-      <Modal isOpen={signInModalOpen} onClose={() => setSignInModalOpen(false)} />
     </div>
   );
 };

@@ -5,7 +5,7 @@ const initialState = {
   isLoading: true,
 }
 
-export const authSlice = createSlice({
+const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
@@ -20,6 +20,6 @@ export const authSlice = createSlice({
   }
 })
 
-export const {loadFeedbacks, setLoading} = feedbackSlice.actions;
+export const {authFailed, authSuccess} = authSlice.actions;
 
-export default feedbackSlice.reducer;
+export default authSlice.reducer;

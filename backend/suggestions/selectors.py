@@ -32,14 +32,14 @@ def feedback_list(*, user, filters=None):
 
     if user.is_authenticated:
         extra_annotates['upvoted_by_current_user'] = \
-            Exists(models.Comment.objects.filter(feedback_id=OuterRef('pk'),
-                                                 created_by=user))
+            Exists(models.UpvoteAction.objects.filter(feedback_id=OuterRef('pk'),
+                                                      created_by=user))
     else:
         extra_annotates['upvoted_by_current_user'] = Value(False)
     
     list_of_feedbacks = models.Feedback.objects\
-        .annotate(upvote_count=Count('upvotes'),
-                  comment_count=Count("comments"))\
+        .annotate(upvote_count=Count('upvotes', distinct=True))\
+        .annotate(comment_count=Count("comments", distinct=True))\
         .annotate(**extra_annotates)\
         .filter(**extra_filters)\
         .order_by(sortBy)
@@ -63,3 +63,15 @@ def roadmap_count_list():
         })
 
     return status_count_list
+
+def feedback_upvote_data(*, user, feedbackId):
+    is_upvoted_by_current_user = False
+
+    if user.is_authenticated:
+        is_upvoted_by_current_user = models.UpvoteAction.objects\
+            .filter(feedback_id=feedbackId, created_by=user).exists()
+
+    total_upvotes = models.UpvoteAction.objects\
+        .filter(feedback_id=feedbackId).count()
+    
+    return (total_upvotes, is_upvoted_by_current_user)

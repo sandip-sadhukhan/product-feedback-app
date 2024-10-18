@@ -2,7 +2,7 @@ import React from "react";
 import Tag from "./tag";
 import UpvoteBox from "./upvote-box";
 import commentIcon from '../../assets/shared/icon-comments.svg'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SuggestionCard = (props) => {
   const {
@@ -12,17 +12,25 @@ const SuggestionCard = (props) => {
     title,
     description,
     category,
-    commentsCount
+    commentsCount,
+    onUpvoteClick
   } = props;
 
+  const upvoteClickHandler = (event) => {
+    event.stopPropagation();
+    onUpvoteClick();
+  }
+
+  const navigate = useNavigate();
+
   return (
-    <Link to={`/feedback/${id}`}>
       <div
         className="flex flex-col gap-y-4 items-start py-7 px-8 bg-white rounded-lg cursor-pointer md:flex-row md:items-center md:justify-between"
+        onClick={() => navigate(`/feedback/${id}`)}
       >
         <div className="flex items-start gap-x-10">
           <div className="hidden md:block">
-            <UpvoteBox count={upvotesCount} isActive={isUpvotedByCurrentUser} />
+            <UpvoteBox count={upvotesCount} isActive={isUpvotedByCurrentUser} onClick={upvoteClickHandler} />
           </div>
 
           {/* Content */}
@@ -35,7 +43,7 @@ const SuggestionCard = (props) => {
 
         <div className="flex items-center justify-between w-full md:w-auto">
           <div className="block md:hidden">
-            <UpvoteBox count={upvotesCount} isActive={isUpvotedByCurrentUser} />
+            <UpvoteBox count={upvotesCount} isActive={isUpvotedByCurrentUser} onClick={upvoteClickHandler} />
           </div>
 
           {/* Comment count */}
@@ -45,7 +53,6 @@ const SuggestionCard = (props) => {
           </div>
         </div>
       </div>
-    </Link>
   );
 };
 
