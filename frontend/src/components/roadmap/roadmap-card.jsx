@@ -6,6 +6,7 @@ import UpvoteBox from '../suggestions/upvote-box'
 
 const RoadmapCard = (props) => {
   const {
+    id,
     statusValue,
     statusLabel,
     title,
@@ -37,7 +38,7 @@ const RoadmapCard = (props) => {
       </div>
 
       <div className="flex flex-col items-start gap-x-[9px]">
-        <Link to="/feedback/1">
+        <Link to={`/feedback/${id}`}>
           <h3 className="text-[13px] hover:text-dark-blue">{title}</h3>
         </Link>
         <p className="text-secondary-blue-dim text-[13px] mb-3 md:mb-4 md:mt-2">

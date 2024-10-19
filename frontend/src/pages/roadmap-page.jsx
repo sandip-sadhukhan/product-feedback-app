@@ -156,6 +156,7 @@ const RoadmapPage = () => {
               mobileSelectedColumn.feedbacks.map(feedback => (
                 <RoadmapCard
                   key={feedback.id}
+                  id={feedback.id}
                   statusValue={mobileSelectedColumn.value}
                   statusLabel={mobileSelectedColumn.label}
                   title={feedback.title}
@@ -188,6 +189,7 @@ const RoadmapPage = () => {
                     column.feedbacks.map(feedback => (
                       <RoadmapCard
                         key={feedback.id}
+                        id={feedback.id}
                         statusValue={column.value}
                         statusLabel={column.label}
                         title={feedback.title}
