@@ -7,7 +7,6 @@ from suggestions import selectors, services
 
 
 class FeedbackListApi(APIView):
-    permission_classes = [permissions.AllowAny]
 
     class InputSerializer(serializers.Serializer):
         category = serializers.ChoiceField(
@@ -39,7 +38,6 @@ class FeedbackListApi(APIView):
         return Response(data)
     
 class RoadmapCountListApi(APIView):
-    permission_classes = [permissions.AllowAny]
 
     class OutputSerializer(serializers.Serializer):
         status = serializers.IntegerField()
@@ -67,3 +65,22 @@ class ToggleUpvoteApi(ApiAuthMixin, APIView):
         }
 
         return Response(data, status=status.HTTP_202_ACCEPTED)
+
+
+class RoadmapFeedbackApi(APIView):
+    class OutputSerializer(serializers.Serializer):
+        id = serializers.CharField()
+        title = serializers.CharField()
+        description = serializers.CharField()
+        category = serializers.IntegerField()
+        upvote_count = serializers.IntegerField()
+        upvoted_by_current_user = serializers.BooleanField()
+        comment_count = serializers.IntegerField()
+        status = serializers.IntegerField()
+
+    def get(self, request):
+        feedbacks = selectors.roadmap_feedback_list(user=request.user)
+        data = self.OutputSerializer(feedbacks, many=True).data
+
+        return Response(data)
+

@@ -75,3 +75,26 @@ def feedback_upvote_data(*, user, feedbackId):
         .filter(feedback_id=feedbackId).count()
     
     return (total_upvotes, is_upvoted_by_current_user)
+
+
+def roadmap_feedback_list(*, user):
+    extra_annotates = {}
+
+    if user.is_authenticated:
+        extra_annotates['upvoted_by_current_user'] = \
+            Exists(models.UpvoteAction.objects.filter(feedback_id=OuterRef('pk'),
+                                                      created_by=user))
+    else:
+        extra_annotates['upvoted_by_current_user'] = Value(False)
+    
+    roadmap_statuses = [models.Feedback.PLANNED, models.Feedback.IN_PROGRESS,
+                        models.Feedback.LIVE]
+    
+    list_of_feedbacks = models.Feedback.objects\
+        .filter(status__in=roadmap_statuses)\
+        .annotate(upvote_count=Count('upvotes', distinct=True))\
+        .annotate(comment_count=Count("comments", distinct=True))\
+        .annotate(**extra_annotates)\
+        .order_by('-upvote_count')
+    
+    return list_of_feedbacks

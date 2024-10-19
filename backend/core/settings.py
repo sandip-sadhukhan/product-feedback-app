@@ -141,12 +141,3 @@ MEDIA_ROOT = BASE_DIR / "media"
 # Custom User object
 AUTH_USER_MODEL = "accounts.User"
 
-# REST framework settings
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES':[
-        'rest_framework.authentication.SessionAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES':[
-        'rest_framework.permissions.IsAuthenticated'
-    ]
-}
