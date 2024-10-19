@@ -6,6 +6,8 @@ import Button from '../components/common/button'
 import plusIconImg from '../assets/shared/icon-plus.svg'
 import RoadmapCard from '../components/roadmap/roadmap-card';
 import axios from '../utils/axios-instance';
+import { useDispatch, useSelector } from 'react-redux';
+import { openSignInModal } from '../redux/reducers/modal-slice';
 
 const RoadmapPage = () => {
   const [mobileSelectedColumnId, setMobileSelectedColumnId] = useState(3);
@@ -58,6 +60,44 @@ const RoadmapPage = () => {
     fetchFeedbacks()
   }, [])
 
+  const {isAuthenticated} = useSelector(state => state.auth)
+  const dispatch = useDispatch()
+
+  const isAuthCheck = (fn) => {
+    return function(...args) {
+      if (isAuthenticated) {
+        fn(...args);
+      } else {
+        dispatch(openSignInModal())
+      }
+    }
+  }
+
+  const onUpvoteClick = isAuthCheck(async(productId) => {
+    // Api call
+    const data = (await axios.post(`/feedbacks/${productId}/toggle-upvote/`)).data;
+
+    let newColumnsData = [...columnsData];
+
+    newColumnsData = newColumnsData.map(column => {
+      let newColumn = {...column};
+      newColumn.feedbacks = newColumn.feedbacks.map(feedback => {
+        if (feedback.id === productId) {
+          let newProduct = {...feedback};
+          newProduct.upvote_count = data.upvote_count;
+          newProduct.upvoted_by_current_user = data.upvoted_by_current_user;
+          return newProduct;
+        }
+
+        return feedback;
+      })
+
+      return newColumn;
+    })
+
+    setColumnData(newColumnsData);
+  });
+
   const categoryValueToName = {
     1: 'Feature',
     2: 'UI',
@@ -65,7 +105,6 @@ const RoadmapPage = () => {
     4: 'Enhancement',
     5: 'Bug'
   };
-
 
   return (
     <div className="bg-lightest-blue min-h-screen">
@@ -125,6 +164,7 @@ const RoadmapPage = () => {
                   isUpvotedByCurrentUser={feedback.upvoted_by_current_user}
                   category={categoryValueToName[feedback.category]}
                   commentCount={feedback.comment_count}
+                  onUpvoteClick={() => onUpvoteClick(feedback.id)}
                 />
               ))
             }
@@ -135,7 +175,7 @@ const RoadmapPage = () => {
         <div className="hidden py-8 gap-x-2.5 md:flex lg:gap-x-8">
           {
             columnsData.map(column => (
-              <div className="flex flex-1 flex-col gap-y-6">
+              <div className="flex flex-1 flex-col gap-y-6" key={column.id}>
                 <div className="flex flex-col gap-y-2">
                   <h3>{column.label} ({column.feedbacks.length})</h3>
                   <p className='text-sm text-secondary-blue-dim'>
@@ -147,6 +187,7 @@ const RoadmapPage = () => {
                   {
                     column.feedbacks.map(feedback => (
                       <RoadmapCard
+                        key={feedback.id}
                         statusValue={column.value}
                         statusLabel={column.label}
                         title={feedback.title}
@@ -155,6 +196,7 @@ const RoadmapPage = () => {
                         isUpvotedByCurrentUser={feedback.upvoted_by_current_user}
                         category={categoryValueToName[feedback.category]}
                         commentCount={feedback.comment_count}
+                        onUpvoteClick={() => onUpvoteClick(feedback.id)}
                       />
                     ))
                   }

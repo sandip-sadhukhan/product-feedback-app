@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework import serializers, permissions, status
 from rest_framework.response import Response
 from suggestions.mixins import ApiAuthMixin
-from suggestions import selectors, services
+from suggestions import selectors, services, models
 
 
 
@@ -84,3 +84,17 @@ class RoadmapFeedbackApi(APIView):
 
         return Response(data)
 
+
+class AddFeedbackApi(ApiAuthMixin, APIView):
+    class InputSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = models.Feedback
+            fields = ('title', 'description', 'category')
+    
+    def post(self, request):
+        serializer = self.InputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        services.create_feedback(user=request.user, **serializer.validated_data)
+
+        return Response(status=status.HTTP_201_CREATED)

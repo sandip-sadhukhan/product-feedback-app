@@ -1,13 +1,17 @@
 import React from 'react'
+import { twMerge } from 'tailwind-merge';
 
-const Input = ({...props}) => {
+const Input = React.forwardRef((props, ref) => {
+  const {className="", ...extraProps} = props;
+
   return (
     <input
-      className='bg-lightest-blue text-secondary-blue px-6 py-[13px] text-sm rounded-md'
+      className={twMerge('bg-lightest-blue text-secondary-blue px-6 py-[13px] text-sm rounded-md', className)}
       type="text"
-      {...props}
+      {...extraProps}
+      ref={ref}
     />
   )
-}
+});
 
 export default Input

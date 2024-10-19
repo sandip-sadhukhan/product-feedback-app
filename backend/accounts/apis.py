@@ -4,6 +4,7 @@ from rest_framework import status, permissions, serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth import logout
 from accounts import services
+from suggestions.mixins import ApiAuthMixin
 
 
 User = get_user_model()
@@ -34,6 +35,6 @@ class LogoutView(APIView):
         logout(request)
         return Response(status=status.HTTP_200_OK)
 
-class GetUserInfoView(APIView):
+class GetUserInfoView(ApiAuthMixin,APIView):
     def get(self, request):
         return Response(status=status.HTTP_200_OK)

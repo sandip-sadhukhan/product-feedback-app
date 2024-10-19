@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Button = (props) => {
+const Button = React.forwardRef((props, ref) => {
 
   const {children, colorScheme="purple", ...extraProps} = props;
 
@@ -20,12 +20,13 @@ const Button = (props) => {
 
   return (
     <button
+      ref={ref}
       className={`flex gap-x-1 items-center justify-center text-white font-bold text-[13px] rounded-lg cursor-pointer px-4 py-[10.5px] ${bgColorClassMap[colorScheme]} ${bgHoverClassMap[colorScheme]} md:text-sm md:py-3 md:px-6`}
       {...extraProps}
     >
       {children}
     </button>
   )
-}
+});
 
 export default Button

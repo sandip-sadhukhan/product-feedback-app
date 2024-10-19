@@ -11,3 +11,8 @@ def toggle_upvote(*, user, feedbackId):
         models.UpvoteAction.objects.create(feedback_id=feedbackId,
                                            created_by=user)
         return True
+
+def create_feedback(*, user, title, description, category):
+    return models.Feedback.objects\
+        .create(title=title, description=description, category=category,
+                created_by=user)

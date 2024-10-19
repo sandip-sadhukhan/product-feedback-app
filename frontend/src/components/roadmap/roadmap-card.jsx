@@ -13,7 +13,8 @@ const RoadmapCard = (props) => {
     upvoteCount,
     isUpvotedByCurrentUser,
     category,
-    commentCount
+    commentCount,
+    onUpvoteClick
   } = props;
 
   const statusBorderClassMap = {
@@ -46,7 +47,7 @@ const RoadmapCard = (props) => {
       </div>
 
       <div className="flex items-center justify-between w-full">
-        <UpvoteBox showHorizontal count={upvoteCount} isActive={isUpvotedByCurrentUser} />
+        <UpvoteBox showHorizontal count={upvoteCount} isActive={isUpvotedByCurrentUser} onClick={onUpvoteClick} />
 
         <div className="flex gap-x-2 items-center">
           <img src={commentIcon} alt="Comment" />
