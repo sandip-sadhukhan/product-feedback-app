@@ -1,4 +1,5 @@
 from django.db.models import Count, Value, Exists, OuterRef
+from django.http import Http404
 from suggestions import models
 
 def feedback_list(*, user, filters=None):
@@ -98,3 +99,48 @@ def roadmap_feedback_list(*, user):
         .order_by('-upvote_count')
     
     return list_of_feedbacks
+
+def feedback_with_comments(*, user, feedbackId):
+    feedback_qs_list = list(models.Feedback.objects
+        .filter(id=feedbackId)
+        .values("id", "title", "description", "category", "created_by"))
+    
+    if not feedback_qs_list:
+        raise Http404
+    
+    feedback = feedback_qs_list[0]
+
+    if user.is_authenticated:
+        feedback['upvoted_by_current_user'] = \
+            models.UpvoteAction.objects\
+            .filter(feedback_id=feedback['id'], created_by=user)\
+            .exists()
+    else:
+        feedback['upvoted_by_current_user'] = Value(False)
+
+    feedback['upvote_count'] = \
+        models.UpvoteAction.objects\
+        .filter(feedback_id=feedback['id'])\
+        .count()
+
+    feedback['comment_count'] = \
+        models.Comment.objects\
+        .filter(feedback_id=feedback['id'])\
+        .count()
+    
+    all_comments = list(models.Comment.objects\
+        .filter(feedback_id=feedback['id'])
+        .order_by('created_at')
+        .values("id", "body", "created_by_id", "reply_to_comment", "reply_to_user__username",
+                "created_at", "created_by__name", "created_by__username",
+                "created_by__profile_picture"))
+    
+    main_comments = [comment for comment in all_comments if comment['reply_to_comment'] == None]
+
+    for main_comment in main_comments:
+        replies = [comment for comment in all_comments if comment['reply_to_comment'] == main_comment['id']]
+        main_comment['replies'] = replies
+    
+    feedback['comments'] = main_comments
+
+    return feedback

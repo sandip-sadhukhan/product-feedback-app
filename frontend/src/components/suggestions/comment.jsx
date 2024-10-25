@@ -8,23 +8,21 @@ const Comment = (props) => {
 
   const {
     content,
-    user: {
-      image,
-      name,
-      username
-    },
+    user_name,
+    user_username,
+    user_image,
     replies=[],
-    isReply=false
+    isReply=false,
   } = props;
 
   const replyContent = (reply) => {
     return (
       <>
         <span className="mr-1 font-bold text-purple">
-          @{reply.replyingTo}
+          @{reply.reply_to_username}
         </span>
 
-        {reply.content}
+        {reply.body}
       </>
     )
   }
@@ -33,13 +31,13 @@ const Comment = (props) => {
     <div className={cn("flex flex-col gap-y-4", {"py-6": !isReply})}>
       <div className="flex items-center justify-between">
         <div className="flex gap-x-4 md:items-start">
-          <img className="rounded-full w-10" src={image} alt={name} />
+          <img className="rounded-full w-10 h-10" src={`${import.meta.env.VITE_BASE_API_URL}/media/${user_image}`} alt={user_name} />
           <div className="flex flex-col">
             <h6 className="font-bold text-[13px] text-secondary-blue">
-              {name}
+              {user_name}
             </h6>
             <span className="text-secondary-blue-dim text-[13px]">
-              @{username}
+              @{user_username}
             </span>
 
             <p className={cn("hidden text-secondary-blue-dim text-[13px] leading-6 md:block", {"md:mt-4": !isReply, "md:mt-2.5": isReply})}>
@@ -92,12 +90,15 @@ const Comment = (props) => {
             ></div>
             <div className="flex flex-col gap-y-3">
               {
-                replies.map((reply, index) => (
+                replies.map((reply) => (
                   <Comment
-                    key={index}
+                    key={reply.id}
                     content={replyContent(reply)}
                     user={reply.user}
                     isReply={true}
+                    user_name={reply.created_by_name}
+                    user_username={reply.created_by_username}
+                    user_image={reply.created_by_profile_picture}
                   />
                 ))
               }

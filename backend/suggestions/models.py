@@ -93,4 +93,4 @@ class Comment(models.Model):
         ordering = ('-created_at',)
     
     def __str__(self):
-        return f"{self.created_by.name} commented on feedback id {self.feedback_id}"
+        return f"#{self.id} {self.created_by.name} commented on feedback id {self.feedback_id}"

@@ -98,3 +98,42 @@ class AddFeedbackApi(ApiAuthMixin, APIView):
         services.create_feedback(user=request.user, **serializer.validated_data)
 
         return Response(status=status.HTTP_201_CREATED)
+
+class FeedbackDetailApi(APIView):
+    class OutputSerializer(serializers.Serializer):
+
+        class CommentSerializer(serializers.Serializer):
+            class ReplySerializer(serializers.Serializer):
+                id = serializers.CharField()
+                body = serializers.CharField()
+                created_by_id = serializers.CharField()
+                created_by_name = serializers.CharField(source="created_by__name")
+                created_by_username = serializers.CharField(source="created_by__username")
+                created_by_profile_picture = serializers.CharField(source="created_by__profile_picture")
+                reply_to_username = serializers.CharField(source="reply_to_user__username")
+
+            id = serializers.CharField()
+            body = serializers.CharField()
+            created_by_id = serializers.CharField()
+            created_by_name = serializers.CharField(source="created_by__name")
+            created_by_username = serializers.CharField(source="created_by__username")
+            created_by_profile_picture = serializers.CharField(source="created_by__profile_picture")
+            replies = ReplySerializer(many=True)
+            created_at = serializers.DateTimeField()
+
+        id = serializers.CharField()
+        title = serializers.CharField()
+        description = serializers.CharField()
+        category = serializers.IntegerField()
+        upvote_count = serializers.IntegerField()
+        upvoted_by_current_user = serializers.BooleanField()
+        comment_count = serializers.IntegerField()
+        comments = CommentSerializer(many=True)
+    
+    def get(self, request, feedbackId):
+        feedback_with_comments = selectors\
+            .feedback_with_comments(user=request.user, feedbackId=feedbackId)
+        
+        data = self.OutputSerializer(feedback_with_comments).data
+        
+        return Response(data)

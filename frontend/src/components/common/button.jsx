@@ -1,8 +1,9 @@
 import React from 'react'
+import cn from 'classnames';
 
 const Button = React.forwardRef((props, ref) => {
 
-  const {children, colorScheme="purple", ...extraProps} = props;
+  const {children, colorScheme="purple", disabled=false, ...extraProps} = props;
 
   const bgColorClassMap = {
     purple: "bg-purple",
@@ -21,7 +22,7 @@ const Button = React.forwardRef((props, ref) => {
   return (
     <button
       ref={ref}
-      className={`flex gap-x-1 items-center justify-center text-white font-bold text-[13px] rounded-lg cursor-pointer px-4 py-[10.5px] ${bgColorClassMap[colorScheme]} ${bgHoverClassMap[colorScheme]} md:text-sm md:py-3 md:px-6`}
+      className={cn(`flex gap-x-1 items-center justify-center text-white font-bold text-[13px] rounded-lg cursor-pointer px-4 py-[10.5px] ${bgColorClassMap[colorScheme]} ${bgHoverClassMap[colorScheme]} md:text-sm md:py-3 md:px-6`, {'opacity-20': disabled})}
       {...extraProps}
     >
       {children}

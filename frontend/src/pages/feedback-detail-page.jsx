@@ -1,63 +1,39 @@
-import React, { useState } from 'react'
-import arrowLeftIcon from '../assets/shared/icon-arrow-left.svg'
+import React, { useEffect, useState } from 'react'
+import axios from '../utils/axios-instance'
 import Button from '../components/common/button'
 import SuggestionCard from '../components/suggestions/suggestion-card'
 import Comment from '../components/suggestions/comment'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import GoBackButton from '../components/common/go-back-button'
 import TextArea from '../components/common/textarea'
+import cn from 'classnames'
 
 const FeedbackDetailPage = () => {
-  const [comment, setComment] = useState("");
+  const [commentInput, setCommentInput] = useState("");
+  const [feedback, setFeedback] = useState(null)
   const TOTAL_CHAR_LIMIT = 250;
-  
-  const suggestion = {
-    "id": 2,
-    "title": "Add a dark theme option",
-    "category": "feature",
-    "upvotes": 99,
-    "status": "suggestion",
-    "description": "It would help people with light sensitivities and who prefer dark mode.",
-    "comments": [
-      {
-        "id": 3,
-        "content": "Also, please allow styles to be applied based on system preferences. I would love to be able to browse Frontend Mentor in the evening after my device’s dark mode turns on without the bright background it currently has.",
-        "user": {
-          "image": "/user-images/image-elijah.jpg",
-          "name": "Elijah Moss",
-          "username": "hexagon.bestagon"
-        }
-      },
-      {
-        "id": 4,
-        "content": "Second this! I do a lot of late night coding and reading. Adding a dark theme can be great for preventing eye strain and the headaches that result. It’s also quite a trend with modern apps and  apparently saves battery life.",
-        "user": {
-          "image": "/user-images/image-james.jpg",
-          "name": "James Skinner",
-          "username": "hummingbird1"
-        },
-        "replies": [
-          {
-            "content": "While waiting for dark mode, there are browser extensions that will also do the job. Search for 'dark theme' followed by your browser. There might be a need to turn off the extension for sites with naturally black backgrounds though.",
-            "replyingTo": "hummingbird1",
-            "user": {
-              "image": "/user-images/image-anne.jpg",
-              "name": "Anne Valentine",
-              "username": "annev1990"
-            }
-          },
-          {
-            "content": "Good point! Using any kind of style extension is great and can be highly customizable, like the ability to change contrast and brightness. I'd prefer not to use one of such extensions, however, for security and privacy reasons.",
-            "replyingTo": "annev1990",
-            "user": {
-              "image": "/user-images/image-ryan.jpg",
-              "name": "Ryan Welles",
-              "username": "voyager.344"
-            }
-          }
-        ]
-      }
-    ]
+  const {feedbackId} = useParams();
+
+
+  const fetchFeedbackDetails = async () => {
+    const data = (await axios.get(`/feedbacks/detail/${feedbackId}/`)).data;
+    setFeedback(data);
+  }
+
+  useEffect(() => {
+    fetchFeedbackDetails();
+  }, [])
+
+  if (!feedback) {
+    return <div>Loading...</div>
+  }
+
+  const categoryValueToName = {
+    1: 'Feature',
+    2: 'UI',
+    3: 'UX',
+    4: 'Enhancement',
+    5: 'Bug'
   };
 
   return (
@@ -67,34 +43,36 @@ const FeedbackDetailPage = () => {
         <div className="flex items-center justify-between">
           <GoBackButton />
 
-          <Link to="/feedback/edit/1">
+          <Link to={`/feedback/edit/${feedbackId}`}>
             <Button colorScheme="blue">Edit Feedback</Button>
           </Link>
         </div>
 
         {/* Feedback */}
         <SuggestionCard
-          id={suggestion.id}
-          upvotesCount={suggestion.upvotes}
-          isUpvotedByCurrentUser={false}
-          title={suggestion.title}
-          description={suggestion.description}
-          category={suggestion.category}
-          commentsCount={suggestion.comments?.length || 0}
+          id={feedback.id}
+          upvotesCount={feedback.upvote_count}
+          isUpvotedByCurrentUser={feedback.upvoted_by_current_user}
+          title={feedback.title}
+          description={feedback.description}
+          category={categoryValueToName[feedback.category]}
+          commentsCount={feedback.comment_count}
         />
 
         {/* Comment section */}
-        <div className="flex flex-col bg-white pt-6 px-6 rounded-lg">
-          <h3>4 Comments</h3>
+        <div className={cn("flex flex-col bg-white pt-6 px-6 rounded-lg", {"pb-6": feedback.comments.length === 0})}>
+          <h3>{feedback.comments.length} Comments</h3>
 
           {/* Comments */}
           <div className="flex flex-col divide-y">
             {
-              suggestion.comments.map(comment => (
+              feedback.comments.map(comment => (
                 <Comment
                   key={comment.id}
-                  content={comment.content}
-                  user={comment.user}
+                  content={comment.body}
+                  user_name={comment.created_by_name}
+                  user_username={comment.created_by_username}
+                  user_image={comment.created_by_profile_picture}
                   replies={comment.replies}
                 />
               ))
@@ -109,13 +87,13 @@ const FeedbackDetailPage = () => {
           <div className="flex flex-col gap-y-4">
             <TextArea
               placeholder='Type your comment here'
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
+              value={commentInput}
+              onChange={(e) => setCommentInput(e.target.value)}
             />
 
             <div className="flex items-center justify-between">
-              <p className='text-secondary-blue-dim text-[13px]'>{TOTAL_CHAR_LIMIT - comment.length} Characters left</p>
-              <Button colorScheme="purple">Post Comment</Button>
+              <p className='text-secondary-blue-dim text-[13px]'>{TOTAL_CHAR_LIMIT - commentInput.length} Characters left</p>
+              <Button colorScheme="purple" disabled={(TOTAL_CHAR_LIMIT - commentInput.length) < 0}>Post Comment</Button>
             </div>
           </div>
         </div>
