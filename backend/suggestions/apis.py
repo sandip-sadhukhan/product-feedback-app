@@ -151,3 +151,29 @@ class AddCommentApi(ApiAuthMixin, APIView):
             feedbackId=feedbackId, **serializer.validated_data)
         
         return Response(status=status.HTTP_201_CREATED)
+
+class EditFeedbackApi(ApiAuthMixin, APIView):
+    class Serializer(serializers.ModelSerializer):
+        class Meta:
+            model = models.Feedback
+            fields = ('title', 'description', 'category', 'status')
+
+    def get(self, request, feedbackId):
+        selectors.validate_edit_feedback_access(user=request.user,
+                                                feedbackId=feedbackId)
+        feedback = selectors.get_feedback(feedbackId=feedbackId)
+        data = self.Serializer(feedback).data
+
+        return Response(data)
+    
+    def post(self, request, feedbackId):
+        selectors.validate_edit_feedback_access(user=request.user,
+                                                feedbackId=feedbackId)
+
+        serializer = self.Serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        selectors.edit_feedback(user=request.user, feedbackId=feedbackId,
+                                **serializer.validated_data)
+
+        return Response(status=status.HTTP_202_ACCEPTED)

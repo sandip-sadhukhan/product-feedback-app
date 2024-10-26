@@ -144,3 +144,29 @@ def feedback_with_comments(*, user, feedbackId):
     feedback['comments'] = main_comments
 
     return feedback
+
+def validate_edit_feedback_access(*, user, feedbackId):
+    if user.is_superuser:
+        return
+    
+    feedback = models.Feedback.objects.get(id=feedbackId)
+
+    if feedback.created_by != user:
+        raise Http404
+
+def get_feedback(*, feedbackId):
+    return models.Feedback.objects.get(id=feedbackId)
+
+def edit_feedback(*, user, feedbackId, title, description, category, status):
+    feedback = get_feedback(feedbackId=feedbackId)
+
+    feedback.title = title
+    feedback.description = description
+    feedback.category = category
+
+    if user.is_superuser:
+        feedback.status = status
+    
+    feedback.save()
+
+    return feedback

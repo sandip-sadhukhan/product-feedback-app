@@ -8,5 +8,6 @@ urlpatterns = [
     path('roadmap-count/', apis.RoadmapCountListApi.as_view()),
     path('<int:feedbackId>/toggle-upvote/', apis.ToggleUpvoteApi.as_view()),
     path('<int:feedbackId>/add-comment/', apis.AddCommentApi.as_view()),
+    path('<int:feedbackId>/edit/', apis.EditFeedbackApi.as_view()),
     path('roadmap-feedbacks/', apis.RoadmapFeedbackApi.as_view()),
 ]
