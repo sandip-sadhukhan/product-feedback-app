@@ -2,11 +2,21 @@ import cn from 'classnames';
 import Button from '../common/button';
 import { useState } from 'react';
 import TextArea from '../common/textarea';
+import axios from '../../utils/axios-instance'
+import { useDispatch, useSelector } from 'react-redux';
+import { loadFeedbackDetails } from '../../redux/reducers/feedback-slice';
+import { openSignInModal } from '../../redux/reducers/modal-slice';
 
 const Comment = (props) => {
   const [isCommentInputOpened, setIsCommentInputOpened] = useState(false);
+  const [commentInput, setCommentInput] = useState("")
+  const [errors, setErrors] = useState({body: []})
+  const TOTAL_CHAR_LIMIT = 250;
+  const {isAuthenticated} = useSelector(state => state.auth);
 
   const {
+    id,
+    feedbackId,
     content,
     user_name,
     user_username,
@@ -14,6 +24,48 @@ const Comment = (props) => {
     replies=[],
     isReply=false,
   } = props;
+
+  const isPostCommentDisabled = (TOTAL_CHAR_LIMIT - commentInput.length) < 0;
+  const dispatch = useDispatch();
+
+  const isAuthCheck = (fn) => {
+    return function(...args) {
+      if (isAuthenticated) {
+        fn(...args);
+      } else {
+        dispatch(openSignInModal())
+      }
+    }
+  }
+
+  const fetchFeedbackDetails = async () => {
+    const data = (await axios.get(`/feedbacks/detail/${feedbackId}/`)).data;
+    dispatch(loadFeedbackDetails(data))
+  }
+
+  const handlePostComment = isAuthCheck(async () => {
+    if (isPostCommentDisabled) {
+      return;
+    }
+
+    try {
+      await axios.post(`/feedbacks/${feedbackId}/add-comment/`, {
+        body: commentInput,
+        reply_to_comment_id: id
+      })
+
+      await fetchFeedbackDetails();
+      setCommentInput("")
+      setErrors({body: []})
+      setIsCommentInputOpened(false)
+    } catch(error) {
+      if (error?.response?.data?.body) {
+        setErrors({body: error.response.data.body})
+      } else {
+        throw error;
+      }
+    }
+  });
 
   const replyContent = (reply) => {
     return (
@@ -46,9 +98,17 @@ const Comment = (props) => {
 
             {
               isCommentInputOpened && (
-              <div className="hidden items-start gap-x-2 md:flex mt-6">
-                <TextArea />
-                <Button colorScheme="purple">Post Comment</Button>
+              <div className="hidden items-start gap-x-2 md:flex mt-6 w-full">
+                <div className="flex flex-col gap-2 w-full">
+                   <TextArea
+                    placeholder='Type your comment here'
+                    value={commentInput}
+                    onChange={(e) => setCommentInput(e.target.value)}
+                  />
+
+                  {errors.body.length ? (<span className='text-[13px] text-red-500'>{errors.body.join(",")}</span>) : null}
+                </div>
+                <Button colorScheme="purple" disabled={isPostCommentDisabled} onClick={handlePostComment}>Post Comment</Button>
               </div>
               )
             }
@@ -88,11 +148,13 @@ const Comment = (props) => {
             <div
               className="w-px bg-secondary-blue-dim opacity-10 md:-mt-14"
             ></div>
-            <div className="flex flex-col gap-y-3">
+            <div className="flex flex-col gap-y-3 w-full">
               {
                 replies.map((reply) => (
                   <Comment
                     key={reply.id}
+                    id={reply.id}
+                    feedbackId={feedbackId}
                     content={replyContent(reply)}
                     user={reply.user}
                     isReply={true}

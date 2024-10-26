@@ -141,6 +141,7 @@ class FeedbackDetailApi(APIView):
 class AddCommentApi(ApiAuthMixin, APIView):
     class InputSerializer(serializers.Serializer):
         body = serializers.CharField(max_length=250)
+        reply_to_comment_id = serializers.CharField(required=False)
 
     def post(self, request, feedbackId):
         serializer = self.InputSerializer(data=request.data)

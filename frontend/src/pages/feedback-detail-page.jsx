@@ -9,22 +9,23 @@ import TextArea from '../components/common/textarea'
 import cn from 'classnames'
 import { useDispatch, useSelector } from 'react-redux'
 import { openSignInModal } from '../redux/reducers/modal-slice'
+import { loadFeedbackDetails } from '../redux/reducers/feedback-slice'
 
 const FeedbackDetailPage = () => {
   const [commentInput, setCommentInput] = useState("");
-  const [feedback, setFeedback] = useState(null)
   const [errors, setErrors] = useState({
     body: []
   });
   const TOTAL_CHAR_LIMIT = 250;
   const {feedbackId} = useParams();
+  const {feedback_details: feedback} = useSelector(state => state.feedback);
 
   const {isAuthenticated} = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   const fetchFeedbackDetails = async () => {
     const data = (await axios.get(`/feedbacks/detail/${feedbackId}/`)).data;
-    setFeedback(data);
+    dispatch(loadFeedbackDetails(data))
   }
 
   useEffect(() => {
@@ -59,12 +60,12 @@ const FeedbackDetailPage = () => {
     const newFeedback = {...feedback};
     newFeedback.upvote_count = data.upvote_count;
     newFeedback.upvoted_by_current_user = data.upvoted_by_current_user;
-    setFeedback(newFeedback);
+    dispatch(loadFeedbackDetails(newFeedback))
   });
 
   const isPostCommentDisabled = (TOTAL_CHAR_LIMIT - commentInput.length) < 0;
 
-  const handlePostComment = async () => {
+  const handlePostComment = isAuthCheck(async () => {
     if (isPostCommentDisabled) {
       return;
     }
@@ -84,8 +85,7 @@ const FeedbackDetailPage = () => {
         throw error;
       }
     }
-  }
-  console.log(errors)
+  });
 
   return (
     <div className="px-6 pt-6 pb-24 bg-light-blue min-h-screen md:pt-14">
@@ -121,6 +121,8 @@ const FeedbackDetailPage = () => {
               feedback.comments.map(comment => (
                 <Comment
                   key={comment.id}
+                  id={comment.id}
+                  feedbackId={feedback.id}
                   content={comment.body}
                   user_name={comment.created_by_name}
                   user_username={comment.created_by_username}

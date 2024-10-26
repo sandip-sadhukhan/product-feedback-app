@@ -14,7 +14,8 @@ const initialState = {
       'In-Progress': 0,
       Live: 0
     }
-  }
+  },
+  feedback_details: null,
 }
 
 export const feedbackSlice = createSlice({
@@ -36,6 +37,9 @@ export const feedbackSlice = createSlice({
     },
     setCategoryFilter: (state, action) => {
       state.filters.category = action.payload;
+    },
+    loadFeedbackDetails: (state, action) => {
+      state.feedback_details = action.payload
     }
   }
 })
@@ -45,7 +49,8 @@ export const {
   setLoading,
   loadRoadmapBoxData,
   setSortBy,
-   setCategoryFilter
+  setCategoryFilter,
+  loadFeedbackDetails
 } = feedbackSlice.actions;
 
 export default feedbackSlice.reducer;
