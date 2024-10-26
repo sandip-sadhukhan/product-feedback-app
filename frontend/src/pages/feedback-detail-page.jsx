@@ -92,7 +92,7 @@ const FeedbackDetailPage = () => {
       <div className="flex flex-col gap-y-6 max-w-3xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <GoBackButton />
+          <GoBackButton url="/" />
 
           {
             isAuthenticated && (user.is_admin || user.user_id === feedback.created_by) ?

@@ -5,7 +5,6 @@ from suggestions.mixins import ApiAuthMixin
 from suggestions import selectors, services, models
 
 
-
 class FeedbackListApi(APIView):
 
     class InputSerializer(serializers.Serializer):
@@ -173,7 +172,16 @@ class EditFeedbackApi(ApiAuthMixin, APIView):
         serializer = self.Serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        selectors.edit_feedback(user=request.user, feedbackId=feedbackId,
+        services.edit_feedback(user=request.user, feedbackId=feedbackId,
                                 **serializer.validated_data)
 
         return Response(status=status.HTTP_202_ACCEPTED)
+
+class DeleteFeedbackApi(ApiAuthMixin, APIView):
+    def delete(self, request, feedbackId):
+        selectors.validate_edit_feedback_access(user=request.user,
+                                                feedbackId=feedbackId)
+        
+        services.delete_feedback(user=request.user, feedbackId=feedbackId)
+        
+        return Response(status=status.HTTP_204_NO_CONTENT)

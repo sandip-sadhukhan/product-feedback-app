@@ -156,17 +156,3 @@ def validate_edit_feedback_access(*, user, feedbackId):
 
 def get_feedback(*, feedbackId):
     return models.Feedback.objects.get(id=feedbackId)
-
-def edit_feedback(*, user, feedbackId, title, description, category, status):
-    feedback = get_feedback(feedbackId=feedbackId)
-
-    feedback.title = title
-    feedback.description = description
-    feedback.category = category
-
-    if user.is_superuser:
-        feedback.status = status
-    
-    feedback.save()
-
-    return feedback

@@ -1,5 +1,6 @@
 from django import http
 from suggestions import models
+from django.utils import timezone
 
 def toggle_upvote(*, user, feedbackId):
     upvote_action_qs = models.UpvoteAction.objects\
@@ -35,3 +36,28 @@ def create_comment(*, user, feedbackId, body, reply_to_comment_id=None):
     return models.Comment.objects\
         .create(feedback_id=feedbackId, body=body, created_by=user,
                 reply_to_comment=reply_to_comment, reply_to_user=reply_to_user)
+
+
+def edit_feedback(*, user, feedbackId, title, description, category, status):
+    feedback = models.Feedback.objects.get(id=feedbackId)
+
+    feedback.title = title
+    feedback.description = description
+    feedback.category = category
+
+    if user.is_superuser:
+        feedback.status = status
+    
+    feedback.save()
+
+    return feedback
+
+def delete_feedback(*, user, feedbackId):
+    feedback = models.Feedback.objects.get(id=feedbackId)
+
+    feedback.deleted_at = timezone.now()
+    feedback.deleted_by = user
+
+    feedback.save()
+
+    return feedback

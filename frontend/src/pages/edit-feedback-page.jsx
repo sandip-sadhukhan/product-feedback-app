@@ -32,7 +32,7 @@ const EditFeedbackPage = () => {
     {label: "Suggestion", value: 1},
     {label: "Planned", value: 2},
     {label: "In-Progress", value: 3},
-    {label: "live", value: 4},
+    {label: "Live", value: 4},
   ]
 
   const fetchFeedback = async () => {
@@ -75,6 +75,11 @@ const EditFeedbackPage = () => {
         throw error;
       }
     }
+  }
+
+  const onDelete = async (e) => {
+    await axios.delete(`/feedbacks/${feedbackId}/delete/`);
+    return navigate("/");
   }
 
   return (
@@ -124,7 +129,7 @@ const EditFeedbackPage = () => {
               <Dropdown
                 value={formData.updateStatus}
                 options={updateStatusOptions}
-                onOptionClick={(value) => setFormData({...formData, updateStatus: value})}
+                onOptionClick={(value) => setFormData({...formData, status: value})}
               />
             </div>
 
@@ -150,7 +155,7 @@ const EditFeedbackPage = () => {
                 <Button type="button" onClick={() => navigate(-1)} colorScheme="secondary-blue">Cancel</Button>
               </div>
 
-              <Button type="button" colorScheme="red">Delete</Button>
+              <Button type="button" onClick={onDelete} colorScheme="red">Delete</Button>
             </div>
 
           </div>
