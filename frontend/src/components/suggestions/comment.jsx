@@ -30,9 +30,9 @@ const Comment = (props) => {
   return (
     <div className={cn("flex flex-col gap-y-4", {"py-6": !isReply})}>
       <div className="flex items-center justify-between">
-        <div className="flex gap-x-4 md:items-start">
+        <div className="flex gap-x-4 md:items-start w-full">
           <img className="rounded-full w-10 h-10" src={`${import.meta.env.VITE_BASE_API_URL}/media/${user_image}`} alt={user_name} />
-          <div className="flex flex-col">
+          <div className="flex flex-col w-full">
             <h6 className="font-bold text-[13px] text-secondary-blue">
               {user_name}
             </h6>

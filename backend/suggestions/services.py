@@ -16,3 +16,7 @@ def create_feedback(*, user, title, description, category):
     return models.Feedback.objects\
         .create(title=title, description=description, category=category,
                 created_by=user)
+
+def create_comment(*, user, feedbackId, body):
+    return models.Comment.objects\
+        .create(feedback_id=feedbackId, body=body, created_by=user)

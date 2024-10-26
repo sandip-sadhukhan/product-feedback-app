@@ -137,3 +137,15 @@ class FeedbackDetailApi(APIView):
         data = self.OutputSerializer(feedback_with_comments).data
         
         return Response(data)
+
+class AddCommentApi(ApiAuthMixin, APIView):
+    class InputSerializer(serializers.Serializer):
+        body = serializers.CharField(max_length=250)
+
+    def post(self, request, feedbackId):
+        serializer = self.InputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        services.create_comment(user=request.user,
+            feedbackId=feedbackId, **serializer.validated_data)
+        
+        return Response(status=status.HTTP_201_CREATED)

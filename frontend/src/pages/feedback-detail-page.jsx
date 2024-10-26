@@ -13,6 +13,9 @@ import { openSignInModal } from '../redux/reducers/modal-slice'
 const FeedbackDetailPage = () => {
   const [commentInput, setCommentInput] = useState("");
   const [feedback, setFeedback] = useState(null)
+  const [errors, setErrors] = useState({
+    body: []
+  });
   const TOTAL_CHAR_LIMIT = 250;
   const {feedbackId} = useParams();
 
@@ -58,6 +61,31 @@ const FeedbackDetailPage = () => {
     newFeedback.upvoted_by_current_user = data.upvoted_by_current_user;
     setFeedback(newFeedback);
   });
+
+  const isPostCommentDisabled = (TOTAL_CHAR_LIMIT - commentInput.length) < 0;
+
+  const handlePostComment = async () => {
+    if (isPostCommentDisabled) {
+      return;
+    }
+
+    try {
+      await axios.post(`/feedbacks/${feedback.id}/add-comment/`, {
+        body: commentInput
+      })
+
+      await fetchFeedbackDetails();
+      setCommentInput("")
+      setErrors({body: []})
+    } catch(error) {
+      if (error?.response?.data?.body) {
+        setErrors({body: error.response.data.body})
+      } else {
+        throw error;
+      }
+    }
+  }
+  console.log(errors)
 
   return (
     <div className="px-6 pt-6 pb-24 bg-light-blue min-h-screen md:pt-14">
@@ -114,10 +142,11 @@ const FeedbackDetailPage = () => {
               value={commentInput}
               onChange={(e) => setCommentInput(e.target.value)}
             />
+            {errors.body.length ? (<span className='text-[13px] text-red-500'>{errors.body.join(",")}</span>) : null}
 
             <div className="flex items-center justify-between">
               <p className='text-secondary-blue-dim text-[13px]'>{TOTAL_CHAR_LIMIT - commentInput.length} Characters left</p>
-              <Button colorScheme="purple" disabled={(TOTAL_CHAR_LIMIT - commentInput.length) < 0}>Post Comment</Button>
+              <Button colorScheme="purple" disabled={isPostCommentDisabled} onClick={handlePostComment}>Post Comment</Button>
             </div>
           </div>
         </div>
