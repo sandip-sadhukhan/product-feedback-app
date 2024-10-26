@@ -20,7 +20,7 @@ const FeedbackDetailPage = () => {
   const {feedbackId} = useParams();
   const {feedback_details: feedback} = useSelector(state => state.feedback);
 
-  const {isAuthenticated} = useSelector(state => state.auth);
+  const {isAuthenticated, user} = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   const fetchFeedbackDetails = async () => {
@@ -94,9 +94,14 @@ const FeedbackDetailPage = () => {
         <div className="flex items-center justify-between">
           <GoBackButton />
 
-          <Link to={`/feedback/edit/${feedbackId}`}>
-            <Button colorScheme="blue">Edit Feedback</Button>
-          </Link>
+          {
+            isAuthenticated && (user.is_admin || user.user_id === feedback.created_by) ?
+            (
+              <Link to={`/feedback/edit/${feedbackId}`}>
+                <Button colorScheme="blue">Edit Feedback</Button>
+              </Link>
+            ) : null
+          }
         </div>
 
         {/* Feedback */}

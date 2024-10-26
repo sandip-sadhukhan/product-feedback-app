@@ -8,8 +8,8 @@ const AuthCheck = ({children}) => {
 
   const fetchUser = async () => {
     try {
-      await axios.get('/accounts/get-user/')
-      dispatch(authSuccess());
+      const data = (await axios.get('/accounts/get-user/')).data;
+      dispatch(authSuccess(data));
     } catch(err) {
       dispatch(authFailed());
     }

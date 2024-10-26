@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status, permissions, serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth import logout
-from accounts import services
+from accounts import services, selectors
 from suggestions.mixins import ApiAuthMixin
 
 
@@ -36,5 +36,12 @@ class LogoutView(APIView):
         return Response(status=status.HTTP_200_OK)
 
 class GetUserInfoView(ApiAuthMixin,APIView):
+    class OutputSerializer(serializers.Serializer):
+        is_admin = serializers.BooleanField()
+        user_id = serializers.CharField(allow_null=True)
+
     def get(self, request):
-        return Response(status=status.HTTP_200_OK)
+        user_info = selectors.get_user_info(user=request.user)
+        data = self.OutputSerializer(user_info).data
+
+        return Response(data, status=status.HTTP_200_OK)

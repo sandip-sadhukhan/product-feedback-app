@@ -129,6 +129,7 @@ class FeedbackDetailApi(APIView):
         upvoted_by_current_user = serializers.BooleanField()
         comment_count = serializers.IntegerField()
         comments = CommentSerializer(many=True)
+        created_by = serializers.CharField()
     
     def get(self, request, feedbackId):
         feedback_with_comments = selectors\
