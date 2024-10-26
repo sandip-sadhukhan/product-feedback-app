@@ -116,7 +116,7 @@ def feedback_with_comments(*, user, feedbackId):
             .filter(feedback_id=feedback['id'], created_by=user)\
             .exists()
     else:
-        feedback['upvoted_by_current_user'] = Value(False)
+        feedback['upvoted_by_current_user'] = False
 
     feedback['upvote_count'] = \
         models.UpvoteAction.objects\

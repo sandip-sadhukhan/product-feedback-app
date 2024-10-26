@@ -22,11 +22,11 @@ const SignInModal = ({isOpen, onClose}) => {
      onClick={handleOuterClick}
      className={cn("backdrop fixed flex items-center justify-center left-0 top-0 w-full h-full bg-black bg-opacity-60", {"hidden": !isOpen})}
      >
-      <div className="relative flex flex-col items-center gap-y-8 bg-white text-black p-8 rounded-lg">
+      <div className="relative flex flex-col items-center gap-y-8 bg-white text-black p-8 mx-3 rounded-lg">
         <button className="absolute -right-2 -top-2 p-2 bg-darkest-blue rounded-full" onClick={handleClose}>
           <img className='w-3' src={iconClose} alt="closeIcon" />
         </button>
-        <h2>You need to signin for this action</h2>
+        <h2 className='text-center'>You need to signin to perform this action</h2>
 
         <Button>Signin with Google</Button>
       </div>
