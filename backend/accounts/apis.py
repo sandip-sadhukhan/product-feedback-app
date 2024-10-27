@@ -25,7 +25,7 @@ class LoginView(APIView):
         if logged_in:
             return Response(status=status.HTTP_200_OK)
         else:
-            return Response({"message": "Wrong Credentials are provided."},
+            return Response({"password": ["Wrong Credentials are provided."]},
                             status=status.HTTP_400_BAD_REQUEST)
 
 class LogoutView(APIView):
