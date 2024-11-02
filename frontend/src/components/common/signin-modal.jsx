@@ -12,6 +12,7 @@ const SignInModal = ({isOpen, onClose}) => {
     password: "",
   })
   const [loginFormErrors, setLoginFormErrors] = useState({});
+  const [signUpFormErrors, setSignUpFormErrors] = useState({});
 
   const [signUpFormData, setSignUpFormData] = useState({
     name: "",
@@ -61,6 +62,22 @@ const SignInModal = ({isOpen, onClose}) => {
     }
   }
 
+  const signUpFormSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axios.post("/accounts/signup/", signUpFormData);
+      setSignUpFormErrors({});
+      window.location.reload();
+    } catch(error) {
+      if (error?.response?.data) {
+        setSignUpFormErrors(error.response.data);
+      } else {
+        throw error;
+      }
+    }
+  }
+
   return (
     <div
      onClick={handleOuterClick}
@@ -73,16 +90,34 @@ const SignInModal = ({isOpen, onClose}) => {
         <h2 className='text-center'>You need to signin to perform this action</h2>
 
         {/* Signup */}
-        <form className={cn("flex flex-col gap-y-3 w-full", {"hidden": isLoginModal})}>
-          <Input placeholder="Name" />
+        <form onSubmit={signUpFormSubmit} className={cn("flex flex-col gap-y-3 w-full", {"hidden": isLoginModal})}>
+          <div className="flex flex-col gap-y-1">
+            <Input name="name" value={signUpFormData.name} onChange={signUpOnChange} placeholder="Name" />
+            {signUpFormErrors.name?.length ? (<span className='text-[13px] text-red-500'>{signUpFormErrors.name.join(",")}</span>) : null}
+          </div>
+
           <div className="flex gap-x-2 items-center">
             <span className='text-[13px]'>Profile Picture: </span>
             <Input type="file" placeholder="Profile Picture" />
           </div>
-          <Input placeholder="Username" />
-          <Input placeholder="Email" />
-          <Input placeholder="Password" />
-          <Button className='w-full'>Signup</Button>
+
+          <div className="flex flex-col gap-y-1">
+            <Input name="username" value={signUpFormData.username} onChange={signUpOnChange} placeholder="Username" />
+            {signUpFormErrors.username?.length ? (<span className='text-[13px] text-red-500'>{signUpFormErrors.username.join(",")}</span>) : null}
+          </div>
+
+          <div className="flex flex-col gap-y-1">
+            <Input type="email" name="email" value={signUpFormData.email} onChange={signUpOnChange} placeholder="Email" />
+            {signUpFormErrors.email?.length ? (<span className='text-[13px] text-red-500'>{signUpFormErrors.email.join(",")}</span>) : null}
+          </div>
+
+          <div className="flex flex-col gap-y-1">
+            <Input type="password" name="password" value={signUpFormData.password} onChange={signUpOnChange} placeholder="Password" />
+            {signUpFormErrors.password?.length ? (<span className='text-[13px] text-red-500'>{signUpFormErrors.password.join(",")}</span>) : null}
+          </div>
+
+          <Button type="submit" className='w-full'>Signup</Button>
+
           <p className='text-[13px] text-center'>Already have an account? <span className='text-purple cursor-pointer' onClick={() => setIsLoginModal(true)}>Login here</span></p>
         </form>
 

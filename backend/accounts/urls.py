@@ -5,4 +5,5 @@ urlpatterns = [
     path("login/", apis.LoginView.as_view()),
     path("get-user/", apis.GetUserInfoView.as_view()),
     path("logout/", apis.LogoutView.as_view()),
+    path("signup/", apis.SignUpView.as_view()),
 ]
